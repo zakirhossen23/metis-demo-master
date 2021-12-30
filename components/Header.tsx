@@ -59,28 +59,30 @@ export default function Header({ user }: any) {
 
 	return (
 		<header className="mb-5">
-			<Navbar className="py-4" bg="dark" expand="lg" variant="dark">
+			<Navbar className="py-4" bg="#74B370" expand="lg" >
 				<Container>
 					<Link href="/">
-						<a>
-							<Navbar.Brand>Metis Network Demo</Navbar.Brand>
+
+						<a>	<img className='NavImg' src='/logo.svg'>
+						</img>
+							<Navbar.Brand>MetisGift</Navbar.Brand>
 						</a>
 					</Link>
 					<Navbar.Toggle aria-controls="basic-navbar-nav" />
 					<Navbar.Collapse>
 						<Nav className="me-auto">
-							<NavDropdown title="Projects" id="project-dropdown">
+							<NavDropdown title="Donate" id="project-dropdown">
 								<Link href="/projects/erc-721">
 									<a>
 										<NavDropdown.Item as="div">
-											ERC-721
+											NFT
 										</NavDropdown.Item>
 									</a>
 								</Link>
-								<Link href="/projects/polis-erc-721">
+								<Link href="/projects/Cryptopunks">
 									<a>
 										<NavDropdown.Item as="div">
-											Polis ERC-721
+											Cryptopunks
 										</NavDropdown.Item>
 									</a>
 								</Link>
@@ -94,9 +96,9 @@ export default function Header({ user }: any) {
 							</Nav.Item>
 							<Nav.Item className="px-2">
 								{user ? (
-									<h3 className="text-light">
+									<h5 className="text-light">
 										Hello, {user.username}
-									</h3>
+									</h5>
 								) : (
 									<Button onClick={login} variant="secondary">
 										Metis Login

@@ -1,0 +1,45 @@
+.py-4{
+background-color: #012033;
+color: #ffffff;
+
+}
+.navbar-light .navbar-brand{
+    color: #ffffff !important;
+}
+body{
+background-color: #0B2435;
+    color: #ffffff !important;
+
+}
+td, tr, th {
+     color: #ffffff;
+}
+.text-center{
+    color: #ffffff;
+}
+.NavImg{
+    width: 54px;
+}
+.navbar-light .navbar-nav .nav-link:focus, .navbar-light .navbar-nav .nav-link:hover{
+     color: #ffffff;
+}
+.navbar-light .navbar-nav .nav-link{
+         color: #ffffff;
+}
+
+.card-title{
+    color: #313043;
+}
+
+.modal-title{
+    color: #000000;
+}
+.form-label{
+     color: #ffffff;
+}
+.form-control-plaintext{
+            color: #ffffff;
+}
+.modal-body{
+background-color: #0B2435;
+}

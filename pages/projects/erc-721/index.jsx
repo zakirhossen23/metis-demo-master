@@ -12,7 +12,7 @@ import CreateNFTModal from '../../../components/modals/CreateNFTModal';
 
 import useContract from '../../../services/useContract';
 
-export default function ViewAllNFTs() {
+export default function ViewAllNFTs(user) {
 	const { contract, signerAddress } = useContract('ERC721');
 	const [list, setList] = useState([]);
 	const [tokenName, setTokenName] = useState('');
@@ -20,6 +20,7 @@ export default function ViewAllNFTs() {
 	const [modalShow, setModalShow] = useState(false);
 
 	async function fetchContractData() {
+
 		try {
 			if (contract) {
 				setTokenName(await contract.name());
@@ -33,15 +34,24 @@ export default function ViewAllNFTs() {
 
 					if (value) {
 						const object = JSON.parse(value);
+						var pricedes1 = "0";
+						try { pricedes1 = object.properties.price.description; } catch (ex) { }
+
+						try { if (object.properties.typeimg.description != "NFT") { continue } } catch (ex) { }
+
 						arr.push({
 							tokenId: i,
 							name: object.properties.name.description,
+							price: pricedes1,
+							img: object.properties.image.description,
+							title: "NFT #" + (parseInt(i)).toString() + " For Sale: " + pricedes1 + " ETH",
 							owner,
 						});
 					}
 				}
 
 				setList(arr);
+				document.getElementById("Loading").style = "display:none";
 			}
 		} catch (error) {
 			console.error(error);
@@ -65,9 +75,9 @@ export default function ViewAllNFTs() {
 	}
 
 	return (
-		<>
+		<><>
 			<Head>
-				<title>ERC-721</title>
+				<title>NFT ERC-721</title>
 				<meta name="description" content="ERC721" />
 				<link rel="icon" href="/favicon.ico" />
 			</Head>
@@ -76,48 +86,41 @@ export default function ViewAllNFTs() {
 
 			<Row>
 				<Col>
-					<Button className="float-end" onClick={activateCreateNFTModal}>
-						Create NFT
-					</Button>
+					{user && (
+						<Button
+							className="float-end"
+							onClick={activateCreateNFTModal}
+						>
+							Create NFT
+						</Button>
+					)}
 				</Col>
 			</Row>
 
 			<Row>
 				<Col>
-					<Table responsive>
-						<thead>
-							<tr>
-								<th>#</th>
-								<th>Name</th>
-								<th className="d-none d-sm-table-cell">Owner</th>
-								<th></th>
-							</tr>
-						</thead>
-						<tbody>
-							{list.map((listItem) => (
-								<tr key={listItem.tokenId}>
-									<td>{listItem.tokenId}</td>
-									<td>{listItem.name}</td>
-									<td className="d-none d-sm-table-cell">
-										{listItem.owner}
-									</td>
-									<td>
-										<Link
-											href={`erc-721/view/${listItem.tokenId}`}
-											passHref
-										>
-											<Button className="float-end" size="sm">
-												View
-											</Button>
-										</Link>
-									</td>
-								</tr>
-							))}
-						</tbody>
-					</Table>
+					<div id='Loading'>
+						<h1>Loading...</h1>
+					</div>
+
+					<div style={{ background: "white", marginTop: "10px", height: "1.2px" }}></div>
+					<div style={{ display: "flex", gap: "41px", 'flex-wrap': "wrap", marginTop: "10px" }} >
+						{list.map((listItem) => (
+							<div style={{ display: "grid" }}>
+								<a title={listItem.title} href={`erc-721/view/${listItem.tokenId}`}>
+									<img style={{ width: "145px", height: "145px" }} src={listItem.img}></img>
+								</a>
+								<a style={{ color: "yellow" }} href={`erc-721/view/${listItem.tokenId}`}>#{listItem.tokenId}</a>
+								<a style={{ color: "white" }} >{listItem.price} ETH</a>
+								<a style={{ color: "grey" }} >{listItem.name}</a>
+							</div>
+
+
+						))}
+					</div>
+
 				</Col>
-			</Row>
-			<CreateNFTModal
+			</Row><CreateNFTModal
 				show={modalShow}
 				onHide={() => {
 					setModalShow(false);
@@ -125,8 +128,7 @@ export default function ViewAllNFTs() {
 					fetchContractData();
 				}}
 				contract={contract}
-				senderAddress={signerAddress}
-			/>
+				senderAddress={signerAddress} /></>
 		</>
 	);
 }

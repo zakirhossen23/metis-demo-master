@@ -5,7 +5,7 @@ import Button from 'react-bootstrap/Button';
 
 import UseFormInput from '../UseFormInput';
 
-export default function CreateNFTModal({
+export default function CreateCryptoPunkModal({
 	show,
 	onHide,
 	contract,
@@ -51,7 +51,7 @@ export default function CreateNFTModal({
 				},
 				typeimg: {
 					type: 'string',
-					description: "NFT"
+					description: "CryptoPunk"
 				}
 			},
 		};
@@ -97,7 +97,7 @@ export default function CreateNFTModal({
 					</Form.Group>
 					<div className="d-grid">
 						<Button variant="primary" onClick={createNFT}>
-							Create NFT
+							Create Crypto Punk
 						</Button>
 					</div>
 				</Form>

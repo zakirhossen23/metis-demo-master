@@ -13,13 +13,13 @@ export default function Home() {
 			<Head>
 				<title>Home</title>
 				<meta name="description" content="Home" />
-				<link rel="icon" href="/favicon.ico" />
+				<link rel="icon" href="/logo.svg" />
 			</Head>
 
 			<Row>
 				<Col>
 					<div className="text-center">
-						<h1>Projects</h1>
+						<h1>Donate</h1>
 					</div>
 				</Col>
 			</Row>
@@ -30,25 +30,19 @@ export default function Home() {
 						<a>
 							<Card>
 								<Card.Body>
-									<Card.Title>ERC-721</Card.Title>
-									<Card.Text>
-										Showcasing the creation of a simple NFT
-									</Card.Text>
+									<Card.Title>NFT</Card.Title>
 								</Card.Body>
 							</Card>
 						</a>
 					</Link>
 				</Col>
 				<Col className="mt-3">
-					<Link href="/projects/polis-erc-721">
+					<Link href="/projects/Cryptopunks">
 						<a>
 							<Card>
 								<Card.Body>
-									<Card.Title>Polis ERC-721</Card.Title>
-									<Card.Text>
-										Showcasing the creation of a simple NFT using
-										Polis
-									</Card.Text>
+									<Card.Title>Cryptopunks</Card.Title>
+
 								</Card.Body>
 							</Card>
 						</a>
