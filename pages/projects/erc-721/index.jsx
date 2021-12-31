@@ -82,7 +82,7 @@ export default function ViewAllNFTs(user) {
 				<link rel="icon" href="/favicon.ico" />
 			</Head>
 
-			<TokenMetadata tokenName={tokenName} tokenSymbol={tokenSymbol} />
+			<TokenMetadata tokenName={tokenName} tokenSymbol="NFT" />
 
 			<Row>
 				<Col>

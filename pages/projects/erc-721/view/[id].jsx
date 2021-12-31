@@ -9,6 +9,7 @@ import Button from 'react-bootstrap/Button';
 
 import TokenMetadata from '../../../../components/TokenMetadata';
 import SendNFTModal from '../../../../components/modals/SendNFTModal';
+import BidNFTModal from '../../../../components/modals/BidNFTModal';
 
 import useContract from '../../../../services/useContract';
 
@@ -62,7 +63,9 @@ export default function ViewNFT() {
 	function activateSendNFTModal() {
 		setModalShow(true);
 	}
-
+	function activateBidNFTModal() {
+		setModalShow(true);
+	}
 	return (
 		<>
 			<Head>
@@ -71,13 +74,18 @@ export default function ViewNFT() {
 				<link rel="icon" href="/favicon.ico" />
 			</Head>
 
-			<TokenMetadata tokenName={tokenName} tokenSymbol={tokenSymbol} />
+			<TokenMetadata tokenName={tokenName} tokenSymbol="NFT" />
 
 			<Row>
 				<Col>
 					{owner && signerAddress === owner && (
 						<Button className="float-end" onClick={activateSendNFTModal}>
 							Send NFT
+						</Button>
+					)}
+					{signerAddress != owner && (
+						<Button className="float-end" onClick={activateSendNFTModal}>
+							Bid NFT
 						</Button>
 					)}
 				</Col>
@@ -132,6 +140,8 @@ export default function ViewNFT() {
 					</Col>
 				</Form.Group>
 			</Form>
+
+
 			<SendNFTModal
 				show={modalShow}
 				onHide={() => {
@@ -143,6 +153,20 @@ export default function ViewNFT() {
 				senderAddress={signerAddress}
 				tokenId={tokenId}
 			/>
+
+			<BidNFTModal
+				show={modalShow}
+				onHide={() => {
+					setModalShow(false);
+					// This is a poor implementation, better to implement an event listener
+					fetchContractData();
+				}}
+				contract={contract}
+				Amount={signerAddress}
+				tokenId={tokenId}
+				senderAddress={signerAddress}
+			/>
+
 		</>
 	);
 }
