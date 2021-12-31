@@ -11,6 +11,8 @@ export default function BidNFTModal({
 	contract,
 	senderAddress,
 	tokenId,
+	tokenUri,
+	type
 }) {
 	const [Amount, AmountInput] = UseFormInput({
 		type: 'text',
@@ -18,11 +20,18 @@ export default function BidNFTModal({
 	});
 
 	async function bidNFT() {
-		const result = await contract[
-			'safeTransferFrom(address,address,uint256)'
-		](senderAddress, receiverAddress, tokenId);
 
+		var parsed = JSON.parse(tokenUri);
+		if (Number(parsed['properties']['price']['description']) < Number(Amount)) {
+			parsed['properties']['price']['description'] = Amount;
+			parsed['properties']['higherbidadd']['description'] = senderAddress;
+
+		}
+		const result = await contract.createBid(tokenId, Amount, JSON.stringify(parsed), senderAddress);
 		console.log(result);
+		var getallbids = await contract.allbidstoken(1);
+		console.log(getallbids);
+		window.document.getElementsByClassName("btn-close")[0].click();
 	}
 
 	return (
@@ -33,20 +42,32 @@ export default function BidNFTModal({
 			centered
 		>
 			<Modal.Header closeButton>
-				<Modal.Title id="contained-modal-title-vcenter">
-					Bid NFT
-				</Modal.Title>
+				{(type == "Cryptopunk") ? (
+					<Modal.Title id="contained-modal-title-vcenter">
+						Bid Cryptopunk
+					</Modal.Title>) : (
+					<Modal.Title id="contained-modal-title-vcenter">
+						Bid NFT
+					</Modal.Title>
+				)}
 			</Modal.Header>
 			<Modal.Body className="show-grid">
 				<Form>
+
 					<Form.Group className="mb-3" controlId="formGroupName">
 						<Form.Label>Bid Amount in ETH</Form.Label>
 						{AmountInput}
 					</Form.Group>
 					<div className="d-grid">
-						<Button variant="primary" onClick={bidNFT}>
-							Bid NFT
-						</Button>
+
+						{(type == "Cryptopunk") ? (
+							<Button variant="primary" onClick={bidNFT}>
+								Bid Cryptopunk
+							</Button>) : (
+							<Button variant="primary" onClick={bidNFT}>
+								Bid NFT
+							</Button>
+						)}
 					</div>
 				</Form>
 			</Modal.Body>

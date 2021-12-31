@@ -10,7 +10,9 @@ export default function CreateNFTModal({
 	onHide,
 	contract,
 	senderAddress,
+	type,
 }) {
+	console.log(type);
 	const [name, nameInput] = UseFormInput({
 		type: 'text',
 		placeholder: 'Enter name',
@@ -27,8 +29,21 @@ export default function CreateNFTModal({
 		type: 'text',
 		placeholder: 'Enter Price',
 	});
-
+	const [NFTaddress, NFTaddressInput] = UseFormInput({
+		type: 'text',
+		placeholder: 'Enter NFT address',
+	});
+	const [Cryptopunkaddress, CryptopunkaddressInput] = UseFormInput({
+		type: 'text',
+		placeholder: 'Enter Cryptopunk address',
+	});
 	async function createNFT() {
+		var Metistype = "NFT";
+		var tokenAddress = NFTaddress;
+		if ("Cryptopunk" == type) {
+			Metistype = "Cryptopunk";
+			tokenAddress = Cryptopunkaddress;
+		}
 		const createdObject = {
 			title: 'Asset Metadata',
 			type: 'object',
@@ -51,9 +66,18 @@ export default function CreateNFTModal({
 				},
 				typeimg: {
 					type: 'string',
-					description: "NFT"
+					description: Metistype
+				},
+				nftaddress: {
+					type: 'string',
+					description: tokenAddress
+				},
+				higherbidadd: {
+					type: 'string',
+					description: ""
 				}
 			},
+			bids: []
 		};
 
 		const result = await contract.claimToken(
@@ -62,6 +86,7 @@ export default function CreateNFTModal({
 		);
 
 		console.log(result);
+		window.document.getElementsByClassName("btn-close")[0].click();
 	}
 
 	return (
@@ -73,9 +98,14 @@ export default function CreateNFTModal({
 			centered
 		>
 			<Modal.Header closeButton>
-				<Modal.Title id="contained-modal-title-vcenter">
-					Create NFT
-				</Modal.Title>
+				{(type == "Cryptopunk") ? (
+					<Modal.Title id="contained-modal-title-vcenter">
+						Create Cryptopunk
+					</Modal.Title>)
+					: (
+						<Modal.Title id="contained-modal-title-vcenter">
+							Create NFT
+						</Modal.Title>)}
 			</Modal.Header>
 			<Modal.Body className="show-grid">
 				<Form>
@@ -84,7 +114,7 @@ export default function CreateNFTModal({
 						{nameInput}
 					</Form.Group>
 					<Form.Group className="mb-3" controlId="formGroupName">
-						<Form.Label>Price</Form.Label>
+						<Form.Label>Opening price in ETH</Form.Label>
 						{priceInput}
 					</Form.Group>
 					<Form.Group className="mb-3" controlId="formGroupDescription">
@@ -95,10 +125,32 @@ export default function CreateNFTModal({
 						<Form.Label>Image URL</Form.Label>
 						{urlInput}
 					</Form.Group>
+					{(type == "Cryptopunk") ? (
+						<Form.Group className="mb-3" controlId="formGroupImageUrl">
+							<Form.Label>Cryptopunk address</Form.Label>
+							{CryptopunkaddressInput}
+						</Form.Group>
+					) : (
+						<Form.Group className="mb-3" controlId="formGroupImageUrl">
+							<Form.Label>NFT address</Form.Label>
+							{NFTaddressInput}
+						</Form.Group>
+					)
+
+					}
+
 					<div className="d-grid">
-						<Button variant="primary" onClick={createNFT}>
-							Create NFT
-						</Button>
+						{(type == "Cryptopunk") ? (
+							<Button variant="primary" onClick={createNFT}>
+								Create Cryptopunk
+							</Button>)
+							: (
+								<Button variant="primary" onClick={createNFT}>
+									Create NFT
+								</Button>
+							)}
+
+
 					</div>
 				</Form>
 			</Modal.Body>

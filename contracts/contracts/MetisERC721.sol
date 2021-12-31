@@ -7,6 +7,21 @@ contract MetisERC721 is ERC721 {
 	uint256 private _tokenIds;
 	mapping(uint256 => string) private _tokenURIs;
 
+	mapping(uint256 => Bid) public allbidstoken;
+
+	uint256 public bidCount = 0;
+	struct Bid {
+		uint256 TokenID;
+		string bid;
+		address bidderHash;
+		string date;
+		string status;
+	}
+	struct Bidder {
+		uint256 id;
+		string username;
+	}
+
 	constructor(string memory name, string memory symbol)
 		ERC721(name, symbol)
 	{}
@@ -24,7 +39,7 @@ contract MetisERC721 is ERC721 {
 	}
 
 	function _setTokenURI(uint256 tokenId, string memory _tokenURI)
-		internal
+		public
 		virtual
 	{
 		require(
@@ -51,5 +66,17 @@ contract MetisERC721 is ERC721 {
 
 	function totalSupply() public view returns (uint256) {
 		return _tokenIds;
+	}
+
+	function createBid(
+		uint256 _tokenId,
+		string memory _bid,
+		string memory _updatedURI,
+		address bidder
+	) public {
+		bidCount++;
+		_tokenURIs[_tokenId] = _updatedURI;
+
+		allbidstoken[bidCount] = Bid(_tokenId, _bid, bidder, "date", "Bid");
 	}
 }

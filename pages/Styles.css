@@ -43,3 +43,13 @@ td, tr, th {
 .modal-body{
 background-color: #0B2435;
 }
+.img-fluid {
+    max-width: 160px;
+    height: 160px;
+}
+.col-sm-2{
+    width: 23.666667%;
+}
+.col-sm-10{
+    width: 72.333333%;
+}

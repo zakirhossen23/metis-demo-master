@@ -11,7 +11,10 @@ import Button from 'react-bootstrap/Button';
 declare let window: any;
 
 export default function Header({ user }: any) {
+	const router = useRouter();
 	const { pathname } = useRouter();
+	const { id } = router.query;
+
 
 	async function web3Connect() {
 		window.ethereum.request({ method: 'eth_requestAccounts' });
@@ -88,12 +91,13 @@ export default function Header({ user }: any) {
 								</Link>
 							</NavDropdown>
 						</Nav>
-						<Nav>
-							<Nav.Item className="px-2">
-								<Button onClick={web3Connect} variant="secondary">
-									Activate Metamask
-								</Button>
-							</Nav.Item>
+						<Nav>{id ? (<></>
+						) : (<Nav.Item className="px-2">
+							<Button onClick={web3Connect} variant="secondary">
+								Activate Metamask
+							</Button>
+						</Nav.Item>)}
+
 							<Nav.Item className="px-2">
 								{user ? (
 									<h5 className="text-light">

@@ -13,17 +13,19 @@ import BidNFTModal from '../../../../components/modals/BidNFTModal';
 
 import useContract from '../../../../services/useContract';
 
-export default function ViewNFT() {
+export default function ViewNFT(user) {
 	const { contract, signerAddress } = useContract('ERC721');
 	const router = useRouter();
 	const [tokenId, setTokenId] = useState(-1);
 	const [tokenName, setTokenName] = useState('');
 	const [tokenSymbol, setTokenSymbol] = useState('');
 	const [name, setName] = useState('');
+	const [bid, setBid] = useState('');
+	const [higherbid, setHigherBid] = useState('');
 	const [description, setDescription] = useState('');
 	const [owner, setOwner] = useState('');
 	const [url, setUrl] = useState('');
-
+	const [tokenuri, setTokentokenuri] = useState('');
 	const [modalShow, setModalShow] = useState(false);
 
 	async function fetchContractData() {
@@ -31,9 +33,20 @@ export default function ViewNFT() {
 			const { id } = router.query;
 			if (contract && id) {
 				const value = await contract.tokenURI(id);
-				const object = JSON.parse(value);
 
+				setTokentokenuri(value);
+				console.log(tokenuri);
+				const object = JSON.parse(value);
+				console.log(object);
 				setName(object.properties.name.description);
+				var price = "0";
+				try { price = object.properties.price.description } catch { }
+				setBid(price + " ETH");
+				var higherbidadd = "None";
+				try {
+					higherbidadd = object.properties.higherbidadd.description;
+				} catch { }
+				setHigherBid(higherbidadd)
 				setDescription(object.properties.description.description);
 				setUrl(object.properties.image.description);
 
@@ -44,6 +57,7 @@ export default function ViewNFT() {
 
 				setOwner(owner);
 				setTokenId(id);
+				console.log(id);
 			}
 		} catch (error) {
 			console.error(error);
@@ -60,9 +74,7 @@ export default function ViewNFT() {
 		};
 	}, [router.query, contract]);
 
-	function activateSendNFTModal() {
-		setModalShow(true);
-	}
+
 	function activateBidNFTModal() {
 		setModalShow(true);
 	}
@@ -78,13 +90,9 @@ export default function ViewNFT() {
 
 			<Row>
 				<Col>
-					{owner && signerAddress === owner && (
-						<Button className="float-end" onClick={activateSendNFTModal}>
-							Send NFT
-						</Button>
-					)}
+
 					{signerAddress != owner && (
-						<Button className="float-end" onClick={activateSendNFTModal}>
+						<Button className="float-end" onClick={activateBidNFTModal}>
 							Bid NFT
 						</Button>
 					)}
@@ -100,7 +108,22 @@ export default function ViewNFT() {
 						<Form.Control plaintext readOnly defaultValue={name} />
 					</Col>
 				</Form.Group>
-
+				<Form.Group as={Row} className="mb-3" controlId="formPlaintextName">
+					<Form.Label column sm="2">
+						Higher Bid
+					</Form.Label>
+					<Col sm="10">
+						<Form.Control plaintext readOnly defaultValue={bid} />
+					</Col>
+				</Form.Group>
+				<Form.Group as={Row} className="mb-3" controlId="formPlaintextName">
+					<Form.Label column sm="2">
+						Higher Bid Address
+					</Form.Label>
+					<Col sm="10">
+						<Form.Control plaintext readOnly defaultValue={higherbid} />
+					</Col>
+				</Form.Group>
 				<Form.Group
 					as={Row}
 					className="mb-3"
@@ -142,17 +165,6 @@ export default function ViewNFT() {
 			</Form>
 
 
-			<SendNFTModal
-				show={modalShow}
-				onHide={() => {
-					setModalShow(false);
-					// This is a poor implementation, better to implement an event listener
-					fetchContractData();
-				}}
-				contract={contract}
-				senderAddress={signerAddress}
-				tokenId={tokenId}
-			/>
 
 			<BidNFTModal
 				show={modalShow}
@@ -165,6 +177,7 @@ export default function ViewNFT() {
 				Amount={signerAddress}
 				tokenId={tokenId}
 				senderAddress={signerAddress}
+				tokenUri={tokenuri}
 			/>
 
 		</>

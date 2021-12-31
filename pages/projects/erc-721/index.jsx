@@ -107,10 +107,13 @@ export default function ViewAllNFTs(user) {
 					<div style={{ display: "flex", gap: "41px", 'flex-wrap': "wrap", marginTop: "10px" }} >
 						{list.map((listItem) => (
 							<div style={{ display: "grid" }}>
-								<a title={listItem.title} href={`erc-721/view/${listItem.tokenId}`}>
-									<img style={{ width: "145px", height: "145px" }} src={listItem.img}></img>
-								</a>
-								<a style={{ color: "yellow" }} href={`erc-721/view/${listItem.tokenId}`}>#{listItem.tokenId}</a>
+								<Link href={`/projects/erc-721/view/${listItem.tokenId}`}>
+									<a title={listItem.title} >
+										<img style={{ width: "145px", height: "145px" }} src={listItem.img}></img>
+									</a>
+								</Link>
+								<a style={{ color: "yellow" }} >#{listItem.tokenId}</a>
+
 								<a style={{ color: "white" }} >{listItem.price} ETH</a>
 								<a style={{ color: "grey" }} >{listItem.name}</a>
 							</div>
