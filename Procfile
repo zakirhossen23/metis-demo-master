@@ -1,2 +1,2 @@
-web: npm run devY
+web: npm run dev
 
