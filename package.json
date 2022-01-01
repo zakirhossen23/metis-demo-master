@@ -4,8 +4,8 @@
 	"private": true,
 	"scripts": {
 		"dev": "next dev",
-		"build": "next build",
-		"start": "next start",
+		"build": "next dev",
+		"start": "next dev",
 		"lint": "next lint",
 		"deploy-metis": "cd contracts && hardhat deploy --network metis --tags Metis",
 		"deploy-localmetis": "cd contracts && hardhat deploy --network localmetis --tags Metis"
