@@ -53,3 +53,6 @@ background-color: #0B2435;
 .col-sm-10{
     width: 72.333333%;
 }
+.navbar-expand-lg .navbar-collapse{
+    flex-flow: row-reverse;
+}

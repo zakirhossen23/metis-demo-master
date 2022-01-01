@@ -7,13 +7,29 @@ import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import Button from 'react-bootstrap/Button';
-
+import { EVENT } from './variables/Events';
 declare let window: any;
 
 export default function Header({ user }: any) {
 	const router = useRouter();
 	const { pathname } = useRouter();
 	const { id } = router.query;
+
+
+	var c = new Date(EVENT.EndDateTime).getTime();
+	const timer = setInterval(function () {
+		var n = new Date().getTime();
+		var d = c - n;
+		var da = Math.floor(d / (1000 * 60 * 60 * 24));
+		var h = Math.floor((d % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+		var m = Math.floor((d % (1000 * 60 * 60)) / (1000 * 60));
+		var s = Math.floor((d % (1000 * 60)) / 1000);
+		try {
+			if (document.getElementById("LeftDate") !== null)
+				(document.getElementById("LeftDate") as HTMLHRElement).innerHTML = (da.toString() + " days " + h.toString() + " hours " + m.toString() + " minutes " + s.toString() + " seconds");
+
+		} catch { }
+	}, 1000);
 
 
 	async function web3Connect() {
@@ -72,25 +88,31 @@ export default function Header({ user }: any) {
 						</a>
 					</Link>
 					<Navbar.Toggle aria-controls="basic-navbar-nav" />
+
+					<Nav className="me-auto">
+						<NavDropdown title="Donate" id="project-dropdown">
+							<Link href="/projects/erc-721">
+								<a>
+									<NavDropdown.Item as="div">
+										NFT
+									</NavDropdown.Item>
+								</a>
+							</Link>
+							<Link href="/projects/Cryptopunks">
+								<a>
+									<NavDropdown.Item as="div">
+										Cryptopunks
+									</NavDropdown.Item>
+								</a>
+							</Link>
+						</NavDropdown>
+					</Nav>
+					<div className="navbar-collapse collapse">
+						<h3 id="LeftDate"></h3>
+					</div>
+
+
 					<Navbar.Collapse>
-						<Nav className="me-auto">
-							<NavDropdown title="Donate" id="project-dropdown">
-								<Link href="/projects/erc-721">
-									<a>
-										<NavDropdown.Item as="div">
-											NFT
-										</NavDropdown.Item>
-									</a>
-								</Link>
-								<Link href="/projects/Cryptopunks">
-									<a>
-										<NavDropdown.Item as="div">
-											Cryptopunks
-										</NavDropdown.Item>
-									</a>
-								</Link>
-							</NavDropdown>
-						</Nav>
 						<Nav>{id ? (<></>
 						) : (<Nav.Item className="px-2">
 							<Button onClick={web3Connect} variant="secondary">

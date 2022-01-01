@@ -17,6 +17,7 @@
 		"bootstrap": "5.0.2",
 		"ethereumjs-tx": "^2.1.2",
 		"ethers": "^5.4.4",
+		"fs": "0.0.1-security",
 		"iframe-resizer-react": "^1.1.0",
 		"next": "11.0.1",
 		"prettier": "^2.3.2",

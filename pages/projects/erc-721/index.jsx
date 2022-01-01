@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-
 import Link from 'next/link';
 import Head from 'next/head';
 import Row from 'react-bootstrap/Row';
@@ -104,7 +103,7 @@ export default function ViewAllNFTs(user) {
 					</div>
 
 					<div style={{ background: "white", marginTop: "10px", height: "1.2px" }}></div>
-					<div style={{ display: "flex", gap: "41px", 'flex-wrap': "wrap", marginTop: "10px" }} >
+					<div style={{ display: "flex", gap: "41px", 'flexWrap': "wrap", marginTop: "10px" }} >
 						{list.map((listItem) => (
 							<div style={{ display: "grid" }}>
 								<Link href={`/projects/erc-721/view/${listItem.tokenId}`}>
