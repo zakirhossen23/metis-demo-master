@@ -1,7 +1,14 @@
 {
+  "/SetupEvents": "pages/SetupEvents.html",
   "/_app": "pages/_app.js",
+  "/api/faucet": "pages/api/faucet.js",
+  "/api/metis": "pages/api/metis.js",
+  "/": "pages/index.html",
+  "/projects/Cryptopunks": "pages/projects/Cryptopunks.html",
+  "/projects/Cryptopunks/view/[id]": "pages/projects/Cryptopunks/view/[id].html",
+  "/projects/erc-721": "pages/projects/erc-721.html",
+  "/projects/erc-721/view/[id]": "pages/projects/erc-721/view/[id].html",
   "/_error": "pages/_error.js",
   "/_document": "pages/_document.js",
-  "/": "pages/index.js",
-  "/projects/erc-721": "pages/projects/erc-721.js"
+  "/404": "pages/404.html"
 }

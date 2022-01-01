@@ -73,7 +73,19 @@ export default function ViewAllNFTs(user) {
 	function activateCreateNFTModal() {
 		setModalShow(true);
 	}
+	const listItems =list.map((listItem) => 
+		<div key={listItem.id} style={{ "display": "grid" }}>
+			<Link href={`/projects/Cryptopunks/view/${listItem.tokenId}`}>
+				<a title={listItem.title} >
+					<img style={{ width: "145px", height: "145px" }} src={listItem.img}></img>
+				</a>
+			</Link>
+			<a style={{ color: "yellow" }} >#{listItem.tokenId}</a>
 
+			<a style={{ color: "white" }} >{listItem.price} ETH</a>
+			<a style={{ color: "grey" }} >{listItem.name}</a>
+		</div>
+	);
 	return (
 		<><>
 			<Head>
@@ -105,21 +117,7 @@ export default function ViewAllNFTs(user) {
 
 					<div style={{ background: "white", marginTop: "10px", height: "1.2px" }}></div>
 					<div style={{ display: "flex", gap: "41px", 'flexWrap': "wrap", marginTop: "10px" }} >
-						{list.map((listItem) => (
-							<div style={{ display: "grid" }}>
-								<Link href={`/projects/Cryptopunks/view/${listItem.tokenId}`}>
-									<a title={listItem.title} >
-										<img style={{ width: "145px", height: "145px" }} src={listItem.img}></img>
-									</a>
-								</Link>
-								<a style={{ color: "yellow" }} >#{listItem.tokenId}</a>
-
-								<a style={{ color: "white" }} >{listItem.price} ETH</a>
-								<a style={{ color: "grey" }} >{listItem.name}</a>
-							</div>
-
-
-						))}
+						{listItems}
 					</div>
 
 				</Col>
