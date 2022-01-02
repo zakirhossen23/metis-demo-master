@@ -7,7 +7,7 @@ import Table from 'react-bootstrap/Table';
 import Button from 'react-bootstrap/Button';
 
 import TokenMetadata from '../../../components/TokenMetadata';
-import CreateNFTModal from '../../../components/modals/CreateNFTModal';
+import CreateNFTModal from '../../../components/modals/DonateNFTModal';
 
 import useContract from '../../../services/useContract';
 

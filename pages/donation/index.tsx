@@ -1,5 +1,4 @@
-import React from 'react';
-
+import React, { useState, useEffect } from 'react';
 import Head from 'next/head';
 import Link from 'next/link';
 
@@ -7,7 +6,10 @@ import Card from 'react-bootstrap/Card';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 
+
 export default function Donation() {
+    const [modalShow, setModalShow] = useState(false);
+
     return (
         <>
             <Head>
@@ -33,6 +35,8 @@ export default function Donation() {
                     </a>
                 </Link>
             </Row>
+
+
             <Row style={{
                 height: "273px",
                 margin: "28px",
@@ -75,11 +79,14 @@ export default function Donation() {
                             width: "100%",
                             "justifyContent": "right"
                         }}>
-                            <div className="card" style={{ color: "white", background: "rgb(0, 222, 205)", "textAlign": "center", cursor: "pointer", height: "100%", float: "right", }}>
-                                <div className="card-body" style={{ height: "100%", "paddingTop": "6px" }}>
-                                    Donate NFT
+                            <Link href={'/donation/auction/0'}>
+                                <div className="card" style={{ color: "white", background: "rgb(0, 222, 205)", "textAlign": "center", cursor: "pointer", height: "100%", float: "right", }}>
+                                    <div className="card-body" style={{ height: "100%", "paddingTop": "6px" }}>
+                                        Donate NFT
+                                    </div>
                                 </div>
-                            </div>
+                            </Link>
+
                             <div className="card" style={{ color: "white", background: "rgb(0, 222, 205)", "textAlign": "center", cursor: "pointer", height: "100%", float: "right", }}>
                                 <div className="card-body" style={{ height: "100%", "paddingTop": "6px" }}>
                                     Go to auction
@@ -90,6 +97,7 @@ export default function Donation() {
                 </div>
 
             </Row>
+
 
         </>
     );

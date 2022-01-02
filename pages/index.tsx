@@ -36,7 +36,7 @@ export default function Home() {
 				<Col style={{ width: '250px' }}>
 
 					<Card style={{ 'background': '#00DECD', 'textAlign': 'center', 'cursor': 'pointer' }}>
-						<Link href="/projects/erc-721">
+						<Link href="/donation">
 							<Card.Body>
 								Let’s donate!
 							</Card.Body>
