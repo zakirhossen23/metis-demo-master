@@ -56,3 +56,45 @@ background-color: #0B2435;
 .navbar-expand-lg .navbar-collapse{
     flex-flow: row-reverse;
 }
+
+.row {
+    place-content: center;
+    margin-bottom: 23px;
+    margin-right: 0;
+}
+.mb-5{
+    margin-bottom: 0rem!important;
+}
+.col{
+    flex: inherit;
+}
+.card-body {
+    -webkit-flex: 1 1 auto;
+    padding: 12px 1rem;
+    font-size: 29px;
+}
+.card-body:hover {
+    background-color: #119e93;
+}
+.card-body:visited {
+    background-color: #126e64;
+    outline: 2px solid;
+}
+.Event {
+    margin-top: 85px !important;
+    overflow: hidden;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    position: relative;
+}.EventBTN {
+    position: absolute;
+    background: #0b2435;
+    margin-top: 38%;
+    width: 313px;
+    height: 82px;
+    padding-top: 17px;
+    text-align: center;
+    border-radius: 5px;
+    cursor: pointer;
+}

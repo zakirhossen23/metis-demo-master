@@ -10,9 +10,8 @@ export default function Layout({ user, children }: any) {
 		<>
 			<Header user={user} />
 			<main className="mb-5">
-				<Container>{children}</Container>
+				{children}
 			</main>
-			<Footer />
 		</>
 	);
 }

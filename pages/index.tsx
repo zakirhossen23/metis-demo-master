@@ -13,41 +13,56 @@ export default function Home() {
 			<Head>
 				<title>Home</title>
 				<meta name="description" content="Home" />
-				<link rel="icon" href="/logo.svg" />
+				<link rel="icon" href="/Logo.svg" />
 			</Head>
-
+			<Row>
+				<img style={{ 'width': '340px' }} src='/Logo1.svg'></img>
+			</Row>
 			<Row>
 				<Col>
 					<div className="text-center">
-						<h1>Donate</h1>
+						<h1>A gift with a story</h1>
+					</div>
+				</Col></Row>
+			<Row>
+				<Col style={{ 'width': '690px' }}>
+					<div className="text-center">
+						<h6>MetisGift uses the power of the Metis Layer 2 ​infrastructure to create the most easy, transparent, fun and digital charity auction on the web!</h6>
 					</div>
 				</Col>
 			</Row>
 
-			<Row xs={1} md={2}>
-				<Col className="mt-3">
-					<Link href="/projects/erc-721">
-						<a>
-							<Card>
-								<Card.Body>
-									<Card.Title>NFT</Card.Title>
-								</Card.Body>
-							</Card>
-						</a>
-					</Link>
-				</Col>
-				<Col className="mt-3">
-					<Link href="/projects/Cryptopunks">
-						<a>
-							<Card>
-								<Card.Body>
-									<Card.Title>Cryptopunks</Card.Title>
+			<Row>
+				<Col style={{ width: '250px' }}>
 
-								</Card.Body>
-							</Card>
-						</a>
-					</Link>
+					<Card style={{ 'background': '#00DECD', 'textAlign': 'center', 'cursor': 'pointer' }}>
+						<Link href="/projects/erc-721">
+							<Card.Body>
+								Let’s donate!
+							</Card.Body>
+						</Link>
+					</Card>
+
 				</Col>
+			</Row>
+
+			<Row className='Event'>
+				<img style={{ 'padding': '0' }} src='/Event/Panel.svg'></img>
+				<img style={{
+					"position": "absolute",
+					"bottom": "0"
+				}} src='/Event/Group.svg'></img>
+				<img style={{
+					"padding": "0px",
+					"position": "absolute",
+					"width": "56%",
+					"marginTop": "10%",
+				}} src='/Event/CharityText.svg'></img>
+				<Link href="/projects/erc-721">
+					<div className='card-body EventBTN' >
+						Start event
+					</div>
+				</Link>
 			</Row>
 		</>
 	);
