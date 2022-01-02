@@ -62,8 +62,9 @@ background-color: #0B2435;
     margin-bottom: 23px;
     margin-right: 0;
 }
-.mb-5{
+.mb-5 {
     margin-bottom: 0rem!important;
+    margin-right: 0;
 }
 .col{
     flex: inherit;
@@ -97,4 +98,23 @@ background-color: #0B2435;
     text-align: center;
     border-radius: 5px;
     cursor: pointer;
+}.EventBTN:hover {
+    background-color: #165580;
+}
+.DonationBar {
+    display: -webkit-flex;
+    display: flex;
+    -webkit-justify-content: left;
+    justify-content: left;
+    padding-left: 33px;
+    font-family: arial;
+    font-weight: bold;
+    font-size: medium;
+}
+.DonationBarLink{
+    margin: 8px;
+    width: auto;
+}
+.DonationBarLink.active{
+    border-bottom: white solid;
 }

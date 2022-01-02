@@ -107,9 +107,9 @@ export default function Header({ user }: any) {
 							</Link>
 						</NavDropdown>
 					</Nav>
-					<div className="navbar-collapse collapse">
+					{/* <div className="navbar-collapse collapse">
 						<h3 id="LeftDate"></h3>
-					</div>
+					</div> */}
 
 
 					<Navbar.Collapse>
