@@ -169,7 +169,7 @@ export default function Donation() {
                                             Donate Cryptopunk
                                         </div>
                                     </div>
-                                    <Link href={'/donation/auction/0'}>
+                                    <Link href={`/donation/auction/${listItem.eventId}`}>
                                         <div className="card" style={{ color: "white", background: "rgb(0, 222, 205)", "textAlign": "center", cursor: "pointer", height: "100%", float: "right", width: "220px" }}>
                                             <div className="card-body" style={{ height: "100%", "paddingTop": "6px" }}>
                                                 Go to auction

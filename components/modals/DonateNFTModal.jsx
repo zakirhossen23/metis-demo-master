@@ -141,9 +141,6 @@ export default function DonateNFTModal({
 						<Button variant="primary" onClick={createNFT}>
 							Donate {type}
 						</Button>
-
-
-
 					</div>
 				</Form>
 			</Modal.Body>

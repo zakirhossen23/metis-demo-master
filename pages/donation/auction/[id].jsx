@@ -17,51 +17,48 @@ export default function ViewNFT(user) {
     const [tokenId, setTokenId] = useState(-1);
     const [tokenName, setTokenName] = useState('');
     const [tokenSymbol, setTokenSymbol] = useState('');
-    const [name, setName] = useState('');
-    const [bid, setBid] = useState('');
-    const [higherbid, setHigherBid] = useState('');
-    const [description, setDescription] = useState('');
+    const [title, setTitle] = useState('');
+    const [goalusd, setgoalusd] = useState('');
+    const [goal, setgoal] = useState('');
+    const [dateleft, setdateleft] = useState('');
+    const [logo, setlogo] = useState('');
     const [owner, setOwner] = useState('');
     const [url, setUrl] = useState('');
-    const [tokenuri, setTokentokenuri] = useState('');
+    const [eventuri, setEventuri] = useState('');
     const [modalShow, setModalShow] = useState(false);
 
+
+    function LeftDate(datetext) {
+        var c = new Date(datetext).getTime();
+        var n = new Date().getTime();
+        var d = c - n;
+        var da = Math.floor(d / (1000 * 60 * 60 * 24));
+        var h = Math.floor((d % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        var m = Math.floor((d % (1000 * 60 * 60)) / (1000 * 60));
+        var s = Math.floor((d % (1000 * 60)) / 1000);
+        return (da.toString() + " Days " + h.toString() + " hours " + m.toString() + " minutes " + s.toString() + " seconds");
+    }
     async function fetchContractData() {
         try {
             const { id } = router.query;
             if (contract && id) {
-                const value = await contract.tokenURI(id);
+                const value = await contract.eventURI(id);
+                setEventuri(value);
 
-                setTokentokenuri(value);
-                console.log(tokenuri);
                 const object = JSON.parse(value);
-                console.log(object);
-                setName(object.properties.name.description);
-                var price = "0";
-                try { price = object.properties.price.description } catch { }
-                setBid(price + " ETH");
-                var higherbidadd = "None";
-                try {
-                    higherbidadd = object.properties.higherbidadd.description;
-                } catch { }
-                setHigherBid(higherbidadd)
-                setDescription(object.properties.description.description);
-                setUrl(object.properties.image.description);
-
+                setTitle(object.properties.Title.description);
+                setgoalusd(Number(object.properties.Goal.description * 3817.09));
+                setgoal(Number(object.properties.Goal.description));
+                setdateleft(LeftDate(object.properties.Date.description));
+                setlogo(object.properties.logo.description);
                 setTokenName(await contract.name());
                 setTokenSymbol(await contract.symbol());
 
-                const owner = await contract.ownerOf(id);
-
-                setOwner(owner);
-                setTokenId(id);
-                console.log(id);
             }
         } catch (error) {
             console.error(error);
         }
     }
-
     useEffect(() => {
         fetchContractData();
 
@@ -79,88 +76,27 @@ export default function ViewNFT(user) {
     return (
         <>
             <Head>
-                <title>{name}</title>
-                <meta name="description" content={name} />
+                <title>{title}</title>
+                <meta name="description" content={title} />
                 <link rel="icon" href="/favicon.ico" />
             </Head>
 
+            <div className="row EventContainer" >
+                <div style={{ "display": "flex" }}>
+                    <img src={logo} className="AuctionImage" />
+                    <div className="DetialsContainer">
+                        <h4>{title}</h4>
 
-            <Row>
-                <Col>
-
-                    {signerAddress != owner && (
-                        <Button className="float-end" onClick={activateBidNFTModal}>
-                            Bid NFT
-                        </Button>
-                    )}
-                </Col>
-            </Row>
-
-            <Form>
-                <Form.Group as={Row} className="mb-3" controlId="formPlaintextName">
-                    <Form.Label column sm="2">
-                        Name
-                    </Form.Label>
-                    <Col sm="10">
-                        <Form.Control plaintext readOnly defaultValue={name} />
-                    </Col>
-                </Form.Group>
-                <Form.Group as={Row} className="mb-3" controlId="formPlaintextName">
-                    <Form.Label column sm="2">
-                        Higher Bid
-                    </Form.Label>
-                    <Col sm="10">
-                        <Form.Control plaintext readOnly defaultValue={bid} />
-                    </Col>
-                </Form.Group>
-                <Form.Group as={Row} className="mb-3" controlId="formPlaintextName">
-                    <Form.Label column sm="2">
-                        Higher Bid Address
-                    </Form.Label>
-                    <Col sm="10">
-                        <Form.Control plaintext readOnly defaultValue={higherbid} />
-                    </Col>
-                </Form.Group>
-                <Form.Group
-                    as={Row}
-                    className="mb-3"
-                    controlId="formPlaintextDescription"
-                >
-                    <Form.Label column sm="2">
-                        Description
-                    </Form.Label>
-                    <Col sm="10">
-                        <Form.Control plaintext readOnly defaultValue={description} />
-                    </Col>
-                </Form.Group>
-
-                <Form.Group
-                    as={Row}
-                    className="mb-3"
-                    controlId="formPlaintextOwner"
-                >
-                    <Form.Label column sm="2">
-                        Owner
-                    </Form.Label>
-                    <Col sm="10">
-                        <Form.Control plaintext readOnly defaultValue={owner} />
-                    </Col>
-                </Form.Group>
-
-                <Form.Group
-                    as={Row}
-                    className="mb-3"
-                    controlId="formPlaintextImage"
-                >
-                    <Form.Label column sm="2">
-                        Image
-                    </Form.Label>
-                    <Col sm="10">
-                        <Image src={url} alt="An NFT Image" rounded fluid />
-                    </Col>
-                </Form.Group>
-            </Form>
-
+                        <div className='TextContainer'>
+                            <h4>Goal: </h4>
+                            <h4>$ {goalusd} ({goal} ETH)</h4>
+                        </div>
+                        <div className='TextContainer'>
+                            <h4>14 Days 3 hours 49 mintues 24 seconds</h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
 
             <BidNFTModal
@@ -174,7 +110,6 @@ export default function ViewNFT(user) {
                 Amount={signerAddress}
                 tokenId={tokenId}
                 senderAddress={signerAddress}
-                tokenUri={tokenuri}
             />
 
         </>

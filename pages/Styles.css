@@ -130,3 +130,32 @@ background-color: #0B2435;
     border-radius: .3rem;
     outline: 0;
 }
+.EventContainer{
+        height: 397px;
+    margin: 0 7%;
+    color: black;
+    overflow: hidden;
+    padding: 0;
+}
+.AuctionImage {
+    max-height: 255px;
+    min-height: 255px;
+    min-width: 282px;
+    max-width: 282px;
+    border-radius: 36px;
+    background: white;
+    padding: 27px;
+}
+.DetialsContainer{
+        padding-top: 33px;
+    margin-left: 58px;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    row-gap: 24px;
+    color: white;
+}
+.TextContainer{
+        display: flex;
+    white-space: pre-wrap;
+}
