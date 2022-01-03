@@ -8,7 +8,7 @@ import Table from 'react-bootstrap/Table';
 import Button from 'react-bootstrap/Button';
 
 import TokenMetadata from '../../../components/TokenMetadata';
-import CreateNFTModal from '../../../components/modals/CreateNFTModal';
+import CreateNFTModal from '../../../components/modals/DonateNFTModal';
 
 import useContract from '../../../services/useContract';
 
@@ -73,7 +73,7 @@ export default function ViewAllNFTs(user) {
 	function activateCreateNFTModal() {
 		setModalShow(true);
 	}
-	const listItems =list.map((listItem) => 
+	const listItems = list.map((listItem) =>
 		<div key={listItem.id} style={{ "display": "grid" }}>
 			<Link href={`/projects/Cryptopunks/view/${listItem.tokenId}`}>
 				<a title={listItem.title} >

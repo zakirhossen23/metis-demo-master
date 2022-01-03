@@ -1,3 +1,7 @@
-{
-	"extends": "next"
+  {
+    "extends": "next",
+    "globals": {
+      "window": true,
+      "document": true
+    }
   }
