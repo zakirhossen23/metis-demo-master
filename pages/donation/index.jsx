@@ -6,14 +6,20 @@ import Card from 'react-bootstrap/Card';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 import useContract from '../../services/useContract';
+import DonateNFTModal from '../../components/modals/DonateNFTModal';
 
 
 export default function Donation() {
-    const [modalShow, setModalShow] = useState(false);
+    const [CreatemodalShow, setModalShow] = useState(false);
     const { contract, signerAddress } = useContract('ERC721');
     const [list, setList] = useState([]);
     const [tokenName, setTokenName] = useState('');
     const [tokenSymbol, setTokenSymbol] = useState('');
+    const [selectid, setselectid] = useState('');
+    const [selectedtype, setselectedtype] = useState('');
+    const [SelectedTitle, setSelectedTitle] = useState('');
+
+
     useEffect(() => {
         fetchContractData();
 
@@ -62,6 +68,21 @@ export default function Donation() {
             console.error(error);
         }
     }
+    function activateCreateNFTModal(e) {
+        setselectid(e.target.getAttribute("eventid"));
+        setSelectedTitle(e.target.getAttribute("eventtitle"));
+        setselectedtype("NFT");
+
+        setModalShow(true);
+    }
+    function activateCreateCryptopunkModal(e) {
+        setselectid(e.target.getAttribute("eventid"));
+        setSelectedTitle(e.target.getAttribute("eventtitle"));
+        setselectedtype("Cryptopunk");
+
+        setModalShow(true);
+    }
+
 
 
     function LeftDate(datetext) {
@@ -108,7 +129,7 @@ export default function Donation() {
                 <div key={listItem.eventId} className='row' style={{ height: "397px", margin: "28px", background: "white", color: "black", overflow: "hidden", padding: 0, }}>
                     <div><h4>{LeftDate(listItem.Date)}</h4></div>
                     <div style={{ "display": "flex" }}>
-                        <img src={listItem.logo} style={{ width: "327px" }} />
+                        <img src={listItem.logo} style={{ maxWidth: "327px", maxHeight: "255px", minWidth: "327px", minHeight: "255px", }} />
                         <div style={{
                             "paddingTop": "33px",
                             "marginLeft": "82px",
@@ -135,15 +156,19 @@ export default function Donation() {
                                 "flexDirection": "column",
 
                             }}>
-                                <div class="card" style={{ "height": "100%", border: "0px" }}></div>
-                                <div style={{ "display": "flex", gap: "39px" }}>
-                                    <Link href={'/donation/auction/0'}>
-                                        <div className="card" style={{ color: "white", background: "rgb(0, 222, 205)", "textAlign": "center", cursor: "pointer", height: "100%", float: "right", width: "220px" }}>
-                                            <div className="card-body" style={{ height: "100%", "paddingTop": "6px" }}>
-                                                Donate NFT
-                                            </div>
+                                <div className="card" style={{ "height": "100%", border: "0px" }}></div>
+                                <div style={{ "display": "flex", gap: "14px" }}>
+
+                                    <div eventid={listItem.eventId} eventtitle={listItem.Title} onClick={activateCreateNFTModal} className="card" style={{ color: "white", background: "rgb(0, 222, 205)", "textAlign": "center", cursor: "pointer", height: "100%", float: "right", width: "290px" }}>
+                                        <div eventid={listItem.eventId} eventtitle={listItem.Title} className="card-body" style={{ height: "100%", "paddingTop": "6px" }}>
+                                            Donate NFT
                                         </div>
-                                    </Link>
+                                    </div>
+                                    <div eventid={listItem.eventId} eventtitle={listItem.Title} onClick={activateCreateCryptopunkModal} className="card" style={{ color: "white", background: "rgb(0, 222, 205)", "textAlign": "center", cursor: "pointer", height: "100%", float: "right", width: "290px" }}>
+                                        <div eventid={listItem.eventId} eventtitle={listItem.Title} className="card-body" style={{ height: "100%", "paddingTop": "6px" }}>
+                                            Donate Cryptopunk
+                                        </div>
+                                    </div>
                                     <Link href={'/donation/auction/0'}>
                                         <div className="card" style={{ color: "white", background: "rgb(0, 222, 205)", "textAlign": "center", cursor: "pointer", height: "100%", float: "right", width: "220px" }}>
                                             <div className="card-body" style={{ height: "100%", "paddingTop": "6px" }}>
@@ -159,7 +184,18 @@ export default function Donation() {
 
                 </div>
             ))}
-
+            <DonateNFTModal
+                show={CreatemodalShow}
+                onHide={() => {
+                    setModalShow(false);
+                    // This is a poor implementation, better to implement an event listener
+                }}
+                contract={contract}
+                senderAddress={signerAddress}
+                EventID={selectid}
+                type={selectedtype}
+                SelectedTitle={SelectedTitle}
+            />
         </>
     );
 }

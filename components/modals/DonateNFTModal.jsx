@@ -11,8 +11,10 @@ export default function DonateNFTModal({
 	contract,
 	senderAddress,
 	type,
+	EventID,
+	SelectedTitle,
 }) {
-	console.log(type);
+	console.log(EventID);
 	const [name, nameInput] = UseFormInput({
 		type: 'text',
 		placeholder: 'Enter name',
@@ -98,14 +100,10 @@ export default function DonateNFTModal({
 			centered
 		>
 			<Modal.Header closeButton>
-				{(type == "Cryptopunk") ? (
-					<Modal.Title id="contained-modal-title-vcenter">
-						Create Cryptopunk
-					</Modal.Title>)
-					: (
-						<Modal.Title id="contained-modal-title-vcenter">
-							Create NFT
-						</Modal.Title>)}
+				<Modal.Title id="contained-modal-title-vcenter">
+					Donate {type} - {SelectedTitle}
+				</Modal.Title>
+
 			</Modal.Header>
 			<Modal.Body className="show-grid">
 				<Form>
@@ -140,15 +138,10 @@ export default function DonateNFTModal({
 					}
 
 					<div className="d-grid">
-						{(type == "Cryptopunk") ? (
-							<Button variant="primary" onClick={createNFT}>
-								Create Cryptopunk
-							</Button>)
-							: (
-								<Button variant="primary" onClick={createNFT}>
-									Create NFT
-								</Button>
-							)}
+						<Button variant="primary" onClick={createNFT}>
+							Donate {type}
+						</Button>
+
 
 
 					</div>
@@ -157,24 +150,3 @@ export default function DonateNFTModal({
 		</Modal>
 	);
 }
-
-/*
-{
-	"title": "Asset Metadata",
-	"type": "object",
-	"properties": {
-		"name": {
-			"type": "string",
-			"description": "Identifies the asset to which this NFT represents"
-		},
-		"description": {
-			"type": "string",
-			"description": "Describes the asset to which this NFT represents"
-		},
-		"image": {
-			"type": "string",
-			"description": "A URI pointing to a resource with mime type image/* representing the asset to which this NFT represents. Consider making any images at a width between 320 and 1080 pixels and aspect ratio between 1.91:1 and 4:5 inclusive."
-		}
-	}
-}
-*/
