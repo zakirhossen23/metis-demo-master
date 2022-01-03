@@ -22,8 +22,7 @@ export default function ViewNFT(user) {
     const [goal, setgoal] = useState('');
     const [dateleft, setdateleft] = useState('');
     const [logo, setlogo] = useState('');
-    const [owner, setOwner] = useState('');
-    const [url, setUrl] = useState('');
+
     const [eventuri, setEventuri] = useState('');
     const [modalShow, setModalShow] = useState(false);
 
@@ -62,11 +61,6 @@ export default function ViewNFT(user) {
     useEffect(() => {
         fetchContractData();
 
-        window.ethereum.on('chainChanged', fetchContractData);
-
-        return () => {
-            window.ethereum.removeListener('chainChanged', fetchContractData);
-        };
     }, [router.query, contract]);
 
 
@@ -92,12 +86,40 @@ export default function ViewNFT(user) {
                             <h4>$ {goalusd} ({goal} ETH)</h4>
                         </div>
                         <div className='TextContainer'>
-                            <h4>14 Days 3 hours 49 mintues 24 seconds</h4>
+                            <h4 name='dateleft'>{dateleft}</h4>
                         </div>
                     </div>
                 </div>
             </div>
 
+
+            <div className="row ElementsContainer bgWhite">
+                <div style={{ "display": "flex" }}>
+                    <img src="" className="AuctionImage" />
+                    <div>
+                        <div className="DetialsContainer" style={{ rowGap: "23px" }} >
+                            <h4>Dolphin 10242</h4>
+                            <div className="TextContainer">
+                                <h5 style={{ color: "#8B8B8B" }}>Created by charity LoveLif colloboration with the artist Mika</h5>
+                            </div>
+                        </div>
+                        <div className='ElementBottomContainer'>
+                            <div style={{ width: "116px" }}>
+                                <h8 className="smallgrey">Current bid</h8>
+                                <h4 className='bidprice'>$ 2,000</h4>
+                                <h8 className="smallgrey">14d 3h 49m 24s</h8>
+                            </div>
+                            <div className='BidAllcontainer' >
+                                <div className="Bidcontainer col">
+                                    <div className="card BidcontainerCard">
+                                        <div className="card-body">Bid</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
             <BidNFTModal
                 show={modalShow}
