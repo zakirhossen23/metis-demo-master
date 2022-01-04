@@ -78,7 +78,7 @@ export default function Header({ user }: any) {
 	}
 
 	function donation() {
-		Router.push("/login?url=donationdonation")
+		Router.push("donation")
 	}
 	function StartEvent() {
 		Router.push("/CreateEvents")
