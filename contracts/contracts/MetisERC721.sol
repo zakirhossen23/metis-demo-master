@@ -185,7 +185,6 @@ contract MetisERC721 is ERC721 {
 		return _eventIds;
 	}
 
-
 	function createBid(
 		uint256 _tokenId,
 		string memory _bid,
