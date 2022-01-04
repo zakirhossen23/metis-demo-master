@@ -90,8 +90,8 @@ export default function Header({ user }: any) {
 				<Container>
 					<Link href="/">
 
-						<a>	<img className='NavImg' src='/Logo.svg'>
-						</img>
+						<a>
+							<img className='NavImg' src='/Logo.png'></img>
 							<Navbar.Brand>MetisGift</Navbar.Brand>
 						</a>
 					</Link>
