@@ -1,6 +1,8 @@
 
 import Link from 'next/link';
 import Head from 'next/head';
+import { useState } from 'react';
+
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import * as dotenv from 'dotenv';
@@ -61,6 +63,7 @@ export default function CreateEvents() {
         }
 
 
+
     }
 
     return (
@@ -72,7 +75,7 @@ export default function CreateEvents() {
             </Head>
 
             <Row>
-                <Col style={{ padding: "0 30%", "paddingTop": 0, width: "100%" }}>
+                <Col style={{ padding: "3% 37%", "paddingTop": 0, width: "100%" }}>
                     <div style={{ width: "500px", background: "transparent", padding: "19px", borderRadius: "4px", height: "100%", border: "white solid" }}>
                         <div style={{ margin: "0px 0px 53px 0px" }}>
                             <h1>Login</h1>

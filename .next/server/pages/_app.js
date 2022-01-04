@@ -138,7 +138,7 @@ function Header({
   }
 
   function donation() {
-    router_default().push("/donation");
+    router_default().push("/login?url=donationdonation");
   }
 
   function StartEvent() {
