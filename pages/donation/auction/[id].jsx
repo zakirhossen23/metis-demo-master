@@ -131,7 +131,7 @@ export default function ViewNFT(user) {
                     </div>
                 </div>
             </div>
-            <div id='Loading'>
+            <div id='Loading' className="LoadingArea">
                 <h1>Loading...</h1>
             </div>
             {list.map((listItem) => (

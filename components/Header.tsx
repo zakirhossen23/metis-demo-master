@@ -1,6 +1,7 @@
 import React from 'react';
 import { Oauth2Client } from '@metis.io/middleware-client';
 import { useRouter } from 'next/router';
+import Router from 'next/router'
 import Link from 'next/link';
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
@@ -76,6 +77,13 @@ export default function Header({ user }: any) {
 		);
 	}
 
+	function donation() {
+		Router.push("/donation")
+	}
+	function StartEvent() {
+		Router.push("/CreateEvents")
+
+	}
 	return (
 		<header className="mb-5">
 			<Navbar className="py-4" bg="#74B370" expand="lg" >
@@ -89,47 +97,19 @@ export default function Header({ user }: any) {
 					</Link>
 					<Navbar.Toggle aria-controls="basic-navbar-nav" />
 
-					<Nav className="me-auto">
-						<NavDropdown title="Donate" id="project-dropdown">
-							<Link href="/projects/erc-721">
-								<a>
-									<NavDropdown.Item as="div">
-										NFT
-									</NavDropdown.Item>
-								</a>
-							</Link>
-							<Link href="/projects/Cryptopunks">
-								<a>
-									<NavDropdown.Item as="div">
-										Cryptopunks
-									</NavDropdown.Item>
-								</a>
-							</Link>
-						</NavDropdown>
-					</Nav>
-					{/* <div className="navbar-collapse collapse">
-						<h3 id="LeftDate"></h3>
-					</div> */}
-
 
 					<Navbar.Collapse>
-						<Nav>{id ? (<></>
-						) : (<Nav.Item className="px-2">
-							<Button onClick={web3Connect} variant="secondary">
-								Activate Metamask
-							</Button>
-						</Nav.Item>)}
+						<Nav>
+							<Nav.Item className="px-2">
+								<Button onClick={donation} variant="secondary">
+									Donate
+								</Button>
+							</Nav.Item>
 
 							<Nav.Item className="px-2">
-								{user ? (
-									<h5 className="text-light">
-										Hello, {user.username}
-									</h5>
-								) : (
-									<Button onClick={login} variant="secondary">
-										Metis Login
-									</Button>
-								)}
+								<Button onClick={StartEvent} variant="secondary">
+									Start Event
+								</Button>
 							</Nav.Item>
 						</Nav>
 					</Navbar.Collapse>

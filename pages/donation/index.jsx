@@ -121,7 +121,7 @@ export default function Donation() {
                     </a>
                 </Link>
             </Row>
-            <div id='Loading'>
+            <div id='Loading' className="LoadingArea">
                 <h1>Loading...</h1>
             </div>
 
