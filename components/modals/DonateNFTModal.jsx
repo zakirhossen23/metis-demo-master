@@ -4,6 +4,7 @@ import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 
 import UseFormInput from '../UseFormInput';
+import { useRouter } from 'next/router';
 
 export default function DonateNFTModal({
 	show,
@@ -14,7 +15,10 @@ export default function DonateNFTModal({
 	EventID,
 	SelectedTitle,
 }) {
-	console.log(EventID);
+
+	const router = useRouter();
+
+	console.log(contract);
 	const [name, nameInput] = UseFormInput({
 		type: 'text',
 		placeholder: 'Enter name',
@@ -25,7 +29,7 @@ export default function DonateNFTModal({
 	});
 	const [url, urlInput] = UseFormInput({
 		type: 'text',
-		placeholder: 'Choose image or Enter url',
+		placeholder: 'Enter image url',
 	});
 	const [NFTLogo, NFTLogoInput] = UseFormInput({
 		defaultValue: "",
@@ -46,28 +50,10 @@ export default function DonateNFTModal({
 		placeholder: 'Enter Cryptopunk address',
 	});
 
-	async function getBase64() {
-		let file = document.getElementById("logo").files[0];
-
-		// Make new FileReader
-		let reader = new FileReader();
-		// Convert the file to base64 text
-		const response = await reader.readAsDataURL(file);
-		await new Promise(r => setTimeout(r, 200));
-		console.log(reader.result);
-		return reader.result;
-	}
-
 	async function createNFT() {
 		let Logourl = url;
-		if (url == "") {
-			var base64 = await getBase64();
-			Logourl = base64;
-		}
-
 		var tokenAddress = NFTaddress;
 		if ("Cryptopunk" == type) {
-			Metistype = "Cryptopunk";
 			tokenAddress = Cryptopunkaddress;
 		}
 
@@ -106,15 +92,16 @@ export default function DonateNFTModal({
 			},
 			bids: []
 		};
-
+		console.log(createdObject);
 		const result = await contract.claimToken(
 			senderAddress,
 			JSON.stringify(createdObject),
 			EventID
 		);
-
+		router.push(`/donation/auction/${EventID}`);
 		console.log(result);
 		window.document.getElementsByClassName("btn-close")[0].click();
+
 	}
 
 	return (
@@ -137,20 +124,18 @@ export default function DonateNFTModal({
 						<Form.Label>Name</Form.Label>
 						{nameInput}
 					</Form.Group>
-					<Form.Group className="mb-3" controlId="formGroupName">
-						<Form.Label>Opening price in ETH</Form.Label>
-						{priceInput}
-					</Form.Group>
 					<Form.Group className="mb-3" controlId="formGroupDescription">
 						<Form.Label>Description</Form.Label>
 						{descriptionInput}
 					</Form.Group>
+					<Form.Group className="mb-3" controlId="formGroupName">
+						<Form.Label>Opening price in ETH</Form.Label>
+						{priceInput}
+					</Form.Group>
+
 					<Form.Group className="mb-3" controlId="formGroupImageUrl">
-						<Form.Label>Choose Image or Enter URL</Form.Label>
-						<div style={{ display: "flex", gap: "20px" }}>
-							{urlInput}
-							{NFTLogoInput}
-						</div>
+						<Form.Label>Enter image URL</Form.Label>
+						{urlInput}
 					</Form.Group>
 					{(type == "Cryptopunk") ? (
 						<Form.Group className="mb-3" controlId="formGroupImageUrl">

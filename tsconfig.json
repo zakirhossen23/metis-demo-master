@@ -20,7 +20,7 @@
 	},
 	"include": [
 		"pages/login/index.tsx",
-		"pages/CreateEvents.jsx",
+		"pages/CreateEvents.tsx",
 		"next-env.d.ts",
 		"**/*.ts",
 		"**/*.tsx",

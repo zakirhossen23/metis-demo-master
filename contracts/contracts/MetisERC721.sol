@@ -1,6 +1,5 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
-
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/utils/Strings.sol";
 
@@ -8,8 +7,10 @@ contract MetisERC721 is ERC721 {
 	uint256 private _tokenIds;
 	uint256 private _eventIds;
 	uint256 private _EventTokenIds;
+	string[2] data1;
+	uint256 public _EventTokenSearchIds;
 	mapping(uint256 => string[2]) private AllEventTokens;
-
+	mapping(uint256 => string[2]) public _SearchedStore;
 	mapping(uint256 => string) private _tokenURIs;
 	mapping(uint256 => string) private _eventURIs;
 	mapping(string => string) private _eventTokens;
@@ -61,12 +62,45 @@ contract MetisERC721 is ERC721 {
 		public
 		returns (uint256)
 	{
-		_mint(_claimer, _eventIds);
 		_setEventURI(_eventIds, _eventURI);
 
 		_eventIds++;
 
 		return _eventIds;
+	}
+
+	function gettokenSearchEventTotal(uint256 EventID)
+		public
+		view
+		virtual
+		returns (string[] memory)
+	{
+		string[] memory _SearchedStoreToken = new string[](10);
+
+		uint256 _EventTokenSearchIds2 = 0;
+
+		for (uint256 i = 0; i < _EventTokenIds; i++) {
+			if (
+				keccak256(bytes(AllEventTokens[i][0])) ==
+				keccak256(bytes(Strings.toString(EventID)))
+			) {
+				_SearchedStoreToken[_EventTokenSearchIds2] = AllEventTokens[i][
+					1
+				];
+				_EventTokenSearchIds2++;
+			}
+		}
+
+		return _SearchedStoreToken;
+	}
+
+	function _getSearchedTokenURI(uint256 _tokenId)
+		public
+		view
+		virtual
+		returns (string memory)
+	{
+		return _SearchedStore[_tokenId][0];
 	}
 
 	function _setEventURI(uint256 eventId, string memory _eventURI)

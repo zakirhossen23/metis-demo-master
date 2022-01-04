@@ -129,7 +129,7 @@ export default function Donation() {
                 <div key={listItem.eventId} className='row' style={{ height: "397px", margin: "28px", background: "white", color: "black", overflow: "hidden", padding: 0, }}>
                     <div><h4>{LeftDate(listItem.Date)}</h4></div>
                     <div style={{ "display": "flex" }}>
-                        <img src={listItem.logo} style={{ maxWidth: "327px", maxHeight: "255px", minWidth: "327px", minHeight: "255px", }} />
+                        <img src={listItem.logo} style={{ maxHeight: "246px", minWidth: "284px" }} />
                         <div style={{
                             "paddingTop": "33px",
                             "marginLeft": "82px",

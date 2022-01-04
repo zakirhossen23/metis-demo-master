@@ -1,6 +1,4 @@
-
-import React from 'react';
-
+import React, { useState, useEffect } from 'react';
 import Head from 'next/head';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
@@ -10,11 +8,12 @@ import useContract from '../services/useContract';
 import Router from 'next/router'
 import FileBase64 from 'react-file-base64';
 
-
 export default function CreateEvents() {
 
 
     const { contract, signerAddress } = useContract('ERC721');
+    let { state } = {};
+
     const [EventTitle, EventTitleInput] = UseFormInput({
         defaultValue: "",
         type: 'text',
@@ -39,26 +38,10 @@ export default function CreateEvents() {
         placeholder: 'Event Goal in ETH',
         id: 'goal',
     });
-    const [EventLogo, EventLogoInput] = UseFormInput({
-        defaultValue: "",
-        type: 'file',
-        placeholder: 'Event Logo',
-        id: 'logo',
-    });
-    async function getBase64() {
-        let file = document.getElementById("logo").files[0];
-
-        // Make new FileReader
-        let reader = new FileReader();
-        // Convert the file to base64 text
-        const response = await reader.readAsDataURL(file);
-        await new Promise(r => setTimeout(r, 200));
-        console.log(reader.result);
-        return reader.result;
-    }
 
     async function createEvent() {
-        var base64 = await getBase64();
+
+
         const createdObject = {
             title: 'Asset Metadata',
             type: 'object',
@@ -81,7 +64,7 @@ export default function CreateEvents() {
                 },
                 logo: {
                     type: 'string',
-                    description: base64
+                    description: EventLogo
                 },
                 typeimg: {
                     type: 'string',
@@ -103,6 +86,13 @@ export default function CreateEvents() {
         Router.push('/donation');
 
     }
+    const [EventLogo, EventLogoInput] = UseFormInput({
+        defaultValue: "",
+        type: 'text',
+        placeholder: 'Event Logo Link',
+        id: 'logo'
+    });
+
 
     return (
         <><>
@@ -132,7 +122,7 @@ export default function CreateEvents() {
                             {EventGoalInput}
                         </div>
                         <div style={{ margin: "18px 0" }}>
-                            <h6>Event Logo</h6>
+                            <h6>Event Logo Link</h6>
                             {EventLogoInput}
                         </div>
 
