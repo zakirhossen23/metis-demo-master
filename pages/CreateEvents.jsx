@@ -102,7 +102,7 @@ export default function CreateEvents() {
                 <link rel="icon" href="/favicon.ico" />
             </Head>
             <Row>
-                <Col style={{ padding: "0 30%", "paddingTop": 0, width: "100%" }}>
+                <Col style={{ padding: "0 37%", "paddingTop": 0, width: "100%" }}>
                     <div style={{ width: "500px", background: "transparent", padding: "19px", borderRadius: "4px", height: "100%", border: "white solid" }}>
                         <div style={{ margin: "0px 0px 30px 0px" }}>
                             <h1>Create Event</h1>
