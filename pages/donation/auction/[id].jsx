@@ -14,7 +14,7 @@ import useContract from '../../../services/useContract';
 export default function ViewNFT(user) {
     const { contract, signerAddress } = useContract('ERC721');
     const router = useRouter();
-    const [tokenId, setTokenId] = useState(-1);
+    const [eventId, setEventId] = useState(-1);
     const [list, setList] = useState([]);
     const [tokenName, setTokenName] = useState('');
     const [tokenSymbol, setTokenSymbol] = useState('');
@@ -24,6 +24,8 @@ export default function ViewNFT(user) {
     const [dateleft, setdateleft] = useState('');
     const [dateleftBid, setdateleftBid] = useState('');
     const [logo, setlogo] = useState('');
+    const [selectid, setselectid] = useState('');
+    const [selecttype, setselecttype] = useState('');
 
     const [eventuri, setEventuri] = useState('');
     const [modalShow, setModalShow] = useState(false);
@@ -53,6 +55,7 @@ export default function ViewNFT(user) {
         try {
             const { id } = router.query;
             if (contract && id) {
+                setEventId(id);
                 const value = await contract.eventURI(id);
                 const arr = [];
                 const totalTokens = await contract.gettokenSearchEventTotal(id);
@@ -61,15 +64,17 @@ export default function ViewNFT(user) {
 
                     const object = {};
                     try { object = await JSON.parse(obj) } catch { }
-                    console.log(object);
                     if (object.title) {
                         var pricedes1 = 0;
                         try { pricedes1 = Number(object.properties.price.description * 3817.09) } catch (ex) { }
+                        const TokenId = Number(await contract.gettokenIdByUri(obj));
+                        console.log(TokenId);
                         arr.push({
-                            Id: i,
+                            Id: TokenId,
                             name: object.properties.name.description,
                             description: object.properties.description.description,
                             Bidprice: pricedes1,
+                            price: Number(object.properties.price.description),
                             type: object.properties.typeimg.description,
                             image: object.properties.image.description,
                         });
@@ -78,7 +83,8 @@ export default function ViewNFT(user) {
                 }
 
                 setList(arr);
-                document.getElementById("Loading").style = "display:none";
+                if (document.getElementById("Loading"))
+                    document.getElementById("Loading").style = "display:none";
 
 
                 setEventuri(value);
@@ -103,10 +109,17 @@ export default function ViewNFT(user) {
 
     }, [router.query, contract]);
 
-
-    function activateBidNFTModal() {
+    function activateBidNFTModal(e) {
+        setselectid(e.target.getAttribute("tokenid"));
+        setselecttype("NFT");
         setModalShow(true);
     }
+    function activateBidCryptopunkTModal(e) {
+        setselectid(e.target.getAttribute("tokenid"));
+        setselecttype("Cryptopunk");
+        setModalShow(true);
+    }
+
     return (
         <>
             <Head>
@@ -155,16 +168,25 @@ export default function ViewNFT(user) {
                             </div>
                             <div className='ElementBottomContainer'>
                                 <div style={{ width: "116px" }}>
-                                    <h8 className="smallgrey">Current bid</h8>
-                                    <h4 className='bidprice'>$ {listItem.Bidprice}</h4>
-                                    <h8 className="smallgrey">{dateleftBid}</h8>
+                                    <h7 className="smallgrey">Current bid</h7>
+                                    <h4 className='bidprice'>$ {listItem.Bidprice} ({listItem.price} ETH)</h4>
+                                    <h7 className="smallgrey">{dateleftBid}</h7>
                                 </div>
                                 <div className='BidAllcontainer' >
-                                    <div className="Bidcontainer col">
-                                        <div className="card BidcontainerCard">
-                                            <div className="card-body">Bid</div>
+                                    {listItem.type == "Cryptopunk" ? (
+                                        <div tokenid={listItem.Id} onClick={activateBidCryptopunkTModal} className="Bidcontainer col">
+                                            <div tokenid={listItem.Id} className="card BidcontainerCard">
+                                                <div tokenid={listItem.Id} className="card-body">Bid</div>
+                                            </div>
                                         </div>
-                                    </div>
+                                    ) : (
+                                        <div tokenid={listItem.Id} onClick={activateBidNFTModal} className="Bidcontainer col">
+                                            <div tokenid={listItem.Id} className="card BidcontainerCard">
+                                                <div tokenid={listItem.Id} className="card-body">Bid</div>
+                                            </div>
+                                        </div>
+                                    )}
+
                                 </div>
                             </div>
                         </div>
@@ -182,8 +204,10 @@ export default function ViewNFT(user) {
                 }}
                 contract={contract}
                 Amount={signerAddress}
-                tokenId={tokenId}
+                tokenId={selectid}
                 senderAddress={signerAddress}
+                type={selecttype}
+                eventId={eventId}
             />
 
         </>

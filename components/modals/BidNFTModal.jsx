@@ -11,8 +11,9 @@ export default function BidNFTModal({
 	contract,
 	senderAddress,
 	tokenId,
-	tokenUri,
+	eventId,
 	type
+
 }) {
 	const [Amount, AmountInput] = UseFormInput({
 		type: 'text',
@@ -20,14 +21,16 @@ export default function BidNFTModal({
 	});
 
 	async function bidNFT() {
-
-		var parsed = JSON.parse(tokenUri);
+		const tokenUri = await contract.tokenURI(tokenId);
+		var parsed = await JSON.parse(tokenUri);
 		if (Number(parsed['properties']['price']['description']) < Number(Amount)) {
 			parsed['properties']['price']['description'] = Amount;
 			parsed['properties']['higherbidadd']['description'] = senderAddress;
 
 		}
-		const result = await contract.createBid(tokenId, Amount, JSON.stringify(parsed), senderAddress);
+		const result = await contract.createBid(tokenId, Amount, JSON.stringify(parsed), senderAddress, eventId);
+
+
 		console.log(result);
 		var getallbids = await contract.allbidstoken(1);
 		console.log(getallbids);

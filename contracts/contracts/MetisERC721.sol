@@ -69,6 +69,23 @@ contract MetisERC721 is ERC721 {
 		return _eventIds;
 	}
 
+	function gettokenIdByUri(string memory _tokenURI)
+		public
+		view
+		virtual
+		returns (uint256)
+	{
+		for (uint256 i = 0; i < _tokenIds; i++) {
+			if (
+				keccak256(bytes(_tokenURIs[i])) == keccak256(bytes(_tokenURI))
+			) {
+				return i;
+			}
+		}
+
+		return 0;
+	}
+
 	function gettokenSearchEventTotal(uint256 EventID)
 		public
 		view
@@ -92,6 +109,26 @@ contract MetisERC721 is ERC721 {
 		}
 
 		return _SearchedStoreToken;
+	}
+
+	function getGetEventsTokenID(uint256 EventId, string memory _tokenURI)
+		public
+		view
+		virtual
+		returns (uint256)
+	{
+		for (uint256 i = 0; i < _EventTokenIds; i++) {
+			if (
+				keccak256(bytes(AllEventTokens[i][0])) ==
+				keccak256(bytes(Strings.toString(EventId))) &&
+				keccak256(bytes(AllEventTokens[i][1])) ==
+				keccak256(bytes(_tokenURI))
+			) {
+				return i;
+			}
+		}
+
+		return 0;
 	}
 
 	function _getSearchedTokenURI(uint256 _tokenId)
@@ -152,11 +189,17 @@ contract MetisERC721 is ERC721 {
 		uint256 _tokenId,
 		string memory _bid,
 		string memory _updatedURI,
-		address bidder
+		address bidder,
+		uint256 _eventid
 	) public {
 		bidCount++;
+		uint256 _EventTokenId = getGetEventsTokenID(
+			_eventid,
+			_tokenURIs[_tokenId]
+		);
 		_tokenURIs[_tokenId] = _updatedURI;
 
+		_setTokenEvent(_EventTokenId, _eventid, _updatedURI);
 		allbidstoken[bidCount] = Bid(_tokenId, _bid, bidder, "date", "Bid");
 	}
 }
