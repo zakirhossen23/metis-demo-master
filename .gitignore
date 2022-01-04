@@ -8,6 +8,7 @@
 # testing
 /coverage
 
+.pack
 
 # misc
 .DS_Store
@@ -20,3 +21,5 @@ yarn-error.log*
 
 # vercel
 .vercel
+*.pack
+*.pack

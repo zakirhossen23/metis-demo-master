@@ -25,7 +25,13 @@ export default function DonateNFTModal({
 	});
 	const [url, urlInput] = UseFormInput({
 		type: 'text',
-		placeholder: 'Enter image url',
+		placeholder: 'Choose image or Enter url',
+	});
+	const [NFTLogo, NFTLogoInput] = UseFormInput({
+		defaultValue: "",
+		type: 'file',
+		placeholder: 'NFT Logo',
+		id: 'logo',
 	});
 	const [price, priceInput] = UseFormInput({
 		type: 'text',
@@ -39,13 +45,32 @@ export default function DonateNFTModal({
 		type: 'text',
 		placeholder: 'Enter Cryptopunk address',
 	});
+
+	async function getBase64() {
+		let file = document.getElementById("logo").files[0];
+
+		// Make new FileReader
+		let reader = new FileReader();
+		// Convert the file to base64 text
+		const response = await reader.readAsDataURL(file);
+		await new Promise(r => setTimeout(r, 200));
+		console.log(reader.result);
+		return reader.result;
+	}
+
 	async function createNFT() {
-		var Metistype = "NFT";
+		let Logourl = url;
+		if (url == "") {
+			var base64 = await getBase64();
+			Logourl = base64;
+		}
+
 		var tokenAddress = NFTaddress;
 		if ("Cryptopunk" == type) {
 			Metistype = "Cryptopunk";
 			tokenAddress = Cryptopunkaddress;
 		}
+
 		const createdObject = {
 			title: 'Asset Metadata',
 			type: 'object',
@@ -60,7 +85,7 @@ export default function DonateNFTModal({
 				},
 				image: {
 					type: 'string',
-					description: url,
+					description: Logourl,
 				},
 				price: {
 					type: 'string',
@@ -68,7 +93,7 @@ export default function DonateNFTModal({
 				},
 				typeimg: {
 					type: 'string',
-					description: Metistype
+					description: type
 				},
 				nftaddress: {
 					type: 'string',
@@ -84,7 +109,8 @@ export default function DonateNFTModal({
 
 		const result = await contract.claimToken(
 			senderAddress,
-			JSON.stringify(createdObject)
+			JSON.stringify(createdObject),
+			EventID
 		);
 
 		console.log(result);
@@ -120,8 +146,11 @@ export default function DonateNFTModal({
 						{descriptionInput}
 					</Form.Group>
 					<Form.Group className="mb-3" controlId="formGroupImageUrl">
-						<Form.Label>Image URL</Form.Label>
-						{urlInput}
+						<Form.Label>Choose Image or Enter URL</Form.Label>
+						<div style={{ display: "flex", gap: "20px" }}>
+							{urlInput}
+							{NFTLogoInput}
+						</div>
 					</Form.Group>
 					{(type == "Cryptopunk") ? (
 						<Form.Group className="mb-3" controlId="formGroupImageUrl">

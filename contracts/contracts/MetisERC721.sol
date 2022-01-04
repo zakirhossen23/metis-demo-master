@@ -2,12 +2,17 @@
 pragma solidity ^0.8.0;
 
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
+import "@openzeppelin/contracts/utils/Strings.sol";
 
 contract MetisERC721 is ERC721 {
 	uint256 private _tokenIds;
 	uint256 private _eventIds;
+	uint256 private _EventTokenIds;
+	mapping(uint256 => string[2]) private AllEventTokens;
+
 	mapping(uint256 => string) private _tokenURIs;
 	mapping(uint256 => string) private _eventURIs;
+	mapping(string => string) private _eventTokens;
 
 	mapping(uint256 => Bid) public allbidstoken;
 
@@ -28,16 +33,28 @@ contract MetisERC721 is ERC721 {
 		ERC721(name, symbol)
 	{}
 
-	function claimToken(address _claimer, string memory _tokenURI)
-		public
-		returns (uint256)
-	{
+	function claimToken(
+		address _claimer,
+		string memory _tokenURI,
+		uint256 _eventid
+	) public returns (uint256) {
 		_mint(_claimer, _tokenIds);
 		_setTokenURI(_tokenIds, _tokenURI);
-
+		_setTokenEvent(_EventTokenIds, _eventid, _tokenURI);
 		_tokenIds++;
-
+		_EventTokenIds++;
 		return _tokenIds;
+	}
+
+	function _setTokenEvent(
+		uint256 EventTokenId,
+		uint256 EventId,
+		string memory _tokenURI
+	) public virtual {
+		AllEventTokens[EventTokenId] = [
+			Strings.toString(EventId),
+			string(_tokenURI)
+		];
 	}
 
 	function createEvent(address _claimer, string memory _eventURI)

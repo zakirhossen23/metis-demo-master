@@ -96,9 +96,12 @@ export default function ViewNFT(user) {
             <div className="row ElementsContainer bgWhite">
                 <div style={{ "display": "flex" }}>
                     <img src="" className="AuctionImage" />
-                    <div>
-                        <div className="DetialsContainer" style={{ rowGap: "23px" }} >
+                    <div style={{ width: "100%" }}>
+                        <div className="DetialsContainer" style={{ rowGap: "5px" }} >
                             <h4>Dolphin 10242</h4>
+
+                            <h5 style={{ color: "rgb(139, 139, 139)" }}>Type: </h5>
+
                             <div className="TextContainer">
                                 <h5 style={{ color: "#8B8B8B" }}>Created by charity LoveLif colloboration with the artist Mika</h5>
                             </div>

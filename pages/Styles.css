@@ -172,11 +172,12 @@ background-color: #0B2435;
 }
 
 .ElementBottomContainer{
-        padding-top: 26px;
+       padding-top: 26px;
     margin-left: 58px;
+    display: -webkit-flex;
     display: flex;
     -webkit-flex-direction: row;
-    width: 114%;
+    width: 86%;
     margin-bottom: 28px;
     height: 101px;
 }

@@ -58,7 +58,7 @@ export default function Home() {
 					"width": "56%",
 					"marginTop": "10%",
 				}} src='/Event/CharityText.svg'></img>
-				<Link href="/projects/erc-721">
+				<Link href="/CreateEvents">
 					<div className='card-body EventBTN' >
 						Start event
 					</div>

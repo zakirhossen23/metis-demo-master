@@ -122,10 +122,7 @@ export default function CreateEvents() {
                             <h6>Event Title</h6>
                             {EventTitleInput}
                         </div>
-                        <div style={{ margin: "18px 0" }}>
-                            <h6>Event Description</h6>
-                            {EventDescriptionInput}
-                        </div>
+
                         <div style={{ margin: "18px 0" }}>
                             <h6>Event End Date</h6>
                             {EventDateInput}
