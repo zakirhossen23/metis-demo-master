@@ -16,7 +16,7 @@ export default function Home() {
 				<link rel="icon" href="/Logo.svg" />
 			</Head>
 			<Row>
-				<img style={{ 'width': '340px' }} src='/Logo.png'></img>
+				<img style={{ 'width': '340px' }} src='/Logo1.svg'></img>
 			</Row>
 			<Row>
 				<Col>

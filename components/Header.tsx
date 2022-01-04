@@ -91,7 +91,7 @@ export default function Header({ user }: any) {
 					<Link href="/">
 
 						<a>
-							<img className='NavImg' src='/Logo.png'></img>
+							<img className='NavImg' src='/Logo1.svg'></img>
 							<Navbar.Brand>MetisGift</Navbar.Brand>
 						</a>
 					</Link>
