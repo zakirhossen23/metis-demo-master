@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { Oauth2Client, HttpClient } from '@metis.io/middleware-client';
 import type { AppProps } from 'next/app';
 import { useRouter } from 'next/router';
-import { MetamaskStateProvider } from "use-metamask";
 
 
 import axios from 'axios';

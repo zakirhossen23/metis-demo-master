@@ -13,9 +13,8 @@ import { useRouter } from 'next/router';
 
 declare let window: any;
 export default function login() {
-    const router = useRouter();
 
-    const { pathname } = useRouter();
+    const pathname = Router.pathname;
     async function login() {
         let oauth2Client = new Oauth2Client();
         oauth2Client.startOauth2(
@@ -33,9 +32,9 @@ export default function login() {
             });
             getacc;
             const urlParams = new URLSearchParams(window.location.search)
-            let redirecturl = "";
-            redirecturl = urlParams.get("url")?.toString();
-            router.push(redirecturl);
+            let redirecturl: any;
+            redirecturl = String(urlParams.get("url")?.toString());
+            Router.push(redirecturl);
         } catch (switchError: any) {
             // This error code indicates that the chain has not been added to MetaMask.
             if (switchError.code === 4902) {
