@@ -1,5 +1,4 @@
 
-
 import Link from 'next/link';
 import Head from 'next/head';
 import Row from 'react-bootstrap/Row';
@@ -11,10 +10,9 @@ import React from 'react';
 import { Oauth2Client } from '@metis.io/middleware-client';
 import { useRouter } from 'next/router';
 
-declare let window: any;
-export default function login() {
-
-    const pathname = Router.pathname;
+export default function CreateEvents() {
+    const router = useRouter();
+    const { pathname } = useRouter();
     async function login() {
         let oauth2Client = new Oauth2Client();
         oauth2Client.startOauth2(
@@ -32,10 +30,9 @@ export default function login() {
             });
             getacc;
             const urlParams = new URLSearchParams(window.location.search)
-            let redirecturl: any;
-            redirecturl = String(urlParams.get("url")?.toString());
-            Router.push(redirecturl);
-        } catch (switchError: any) {
+            let redirecturl = urlParams.get("url")?.toString();
+            router.push(redirecturl);
+        } catch (switchError) {
             // This error code indicates that the chain has not been added to MetaMask.
             if (switchError.code === 4902) {
                 try {

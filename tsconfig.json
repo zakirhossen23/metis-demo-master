@@ -19,7 +19,7 @@
 		"jsx": "preserve"
 	},
 	"include": [
-		"pages/login/index.tsx",
+		"pages/login/index.jsx",
 		"pages/CreateEvents.tsx",
 		"next-env.d.ts",
 		"**/*.ts",
