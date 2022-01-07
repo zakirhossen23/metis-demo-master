@@ -51,6 +51,10 @@ export default function Donation() {
 
     }
 
+    const formatter = new Intl.NumberFormat('en-US', {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+    });
 
     async function fetchContractData() {
 
@@ -73,7 +77,7 @@ export default function Donation() {
                             eventId: i,
                             Title: object.properties.Title.description,
                             Date: object.properties.Date.description,
-                            Goalusd: pricedes1,
+                            Goalusd: formatter.format(pricedes1),
                             Goal: object.properties.Goal.description,
                             logo: object.properties.logo.description,
                         });
