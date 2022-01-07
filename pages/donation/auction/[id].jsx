@@ -3,6 +3,8 @@ import { useRouter } from 'next/router';
 import Form from 'react-bootstrap/Form';
 import Head from 'next/head';
 import Row from 'react-bootstrap/Row';
+import Link from 'next/link';
+
 import Col from 'react-bootstrap/Col';
 import Image from 'react-bootstrap/Image';
 import Button from 'react-bootstrap/Button';
@@ -22,6 +24,7 @@ export default function ViewNFT(user) {
     const [goalusd, setgoalusd] = useState('');
     const [goal, setgoal] = useState('');
     const [dateleft, setdateleft] = useState('');
+    const [date, setdate] = useState('');
     const [dateleftBid, setdateleftBid] = useState('');
     const [logo, setlogo] = useState('');
     const [selectid, setselectid] = useState('');
@@ -30,6 +33,10 @@ export default function ViewNFT(user) {
     const [eventuri, setEventuri] = useState('');
     const [modalShow, setModalShow] = useState(false);
 
+    const formatter = new Intl.NumberFormat('en-US', {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+    });
 
     function LeftDate(datetext) {
         var c = new Date(datetext).getTime();
@@ -66,7 +73,7 @@ export default function ViewNFT(user) {
                     try { object = await JSON.parse(obj) } catch { }
                     if (object.title) {
                         var pricedes1 = 0;
-                        try { pricedes1 = Number(object.properties.price.description * 3817.09) } catch (ex) { }
+                        try { pricedes1 = formatter.format(Number(object.properties.price.description * 3817.09)) } catch (ex) { }
                         const TokenId = Number(await contract.gettokenIdByUri(obj));
                         console.log(TokenId);
                         arr.push({
@@ -91,9 +98,10 @@ export default function ViewNFT(user) {
 
                 const object = JSON.parse(value);
                 setTitle(object.properties.Title.description);
-                setgoalusd(Number(object.properties.Goal.description * 3817.09));
+                setgoalusd(formatter.format(Number(object.properties.Goal.description * 3817.09)));
                 setgoal(Number(object.properties.Goal.description));
                 setdateleft(LeftDate(object.properties.Date.description));
+                setdate(object.properties.Date.description);
                 setdateleftBid(LeftDateBid(object.properties.Date.description));
                 setlogo(object.properties.logo.description);
                 setTokenName(await contract.name());
@@ -108,6 +116,31 @@ export default function ViewNFT(user) {
         fetchContractData();
 
     }, [router.query, contract]);
+
+    setInterval(function () {
+        calculateTimeLeft();
+    }, 1000);
+
+
+    function calculateTimeLeft() {
+        try {
+            var allDates = document.getElementsByName("dateleft");
+            for (let i = 0; i < allDates.length; i++) {
+                var date = (allDates[i]).getAttribute("date");
+                allDates[i].innerHTML = LeftDate(date);
+            }
+            var allDates = document.getElementsByName("date");
+            for (let i = 0; i < allDates.length; i++) {
+                var date = (allDates[i]).getAttribute("date");
+                allDates[i].innerHTML = LeftDateBid(date);
+            }
+        } catch (error) {
+
+        }
+
+    }
+
+
 
     function activateBidNFTModal(e) {
         setselectid(e.target.getAttribute("tokenid"));
@@ -139,7 +172,7 @@ export default function ViewNFT(user) {
                             <h4>$ {goalusd} ({goal} ETH)</h4>
                         </div>
                         <div className='TextContainer'>
-                            <h4 name='dateleft'>{dateleft}</h4>
+                            <h4 name='dateleft' date={date}>{dateleft}</h4>
                         </div>
                     </div>
                 </div>
@@ -170,22 +203,34 @@ export default function ViewNFT(user) {
                                 <div style={{ width: "116px" }}>
                                     <h7 className="smallgrey">Current bid</h7>
                                     <h4 className='bidprice'>$ {listItem.Bidprice} ({listItem.price} ETH)</h4>
-                                    <h7 className="smallgrey">{dateleftBid}</h7>
+                                    <h7 name="date" date={date} className="smallgrey">{dateleftBid}</h7>
                                 </div>
                                 <div className='BidAllcontainer' >
-                                    {listItem.type == "Cryptopunk" ? (
-                                        <div tokenid={listItem.Id} onClick={activateBidCryptopunkTModal} className="Bidcontainer col">
-                                            <div tokenid={listItem.Id} className="card BidcontainerCard">
-                                                <div tokenid={listItem.Id} className="card-body">Bid</div>
+                                    <div className='Bidsbutton'>
+                                        <Link href={`/donation/bid/${listItem.Id}`}>
+                                            <div tokenid={listItem.Id} className="Bidcontainer col">
+                                                <div tokenid={listItem.Id} className="card BidcontainerCard">
+                                                    <div tokenid={listItem.Id} className="card-body bidbuttonText">View</div>
+                                                </div>
                                             </div>
-                                        </div>
-                                    ) : (
-                                        <div tokenid={listItem.Id} onClick={activateBidNFTModal} className="Bidcontainer col">
-                                            <div tokenid={listItem.Id} className="card BidcontainerCard">
-                                                <div tokenid={listItem.Id} className="card-body">Bid</div>
+                                        </Link>
+
+                                        {listItem.type == "Cryptopunk" ? (
+                                            <div tokenid={listItem.Id} onClick={activateBidCryptopunkTModal} className="Bidcontainer col">
+                                                <div tokenid={listItem.Id} className="card BidcontainerCard">
+                                                    <div tokenid={listItem.Id} className="card-body bidbuttonText">Bid</div>
+                                                </div>
                                             </div>
-                                        </div>
-                                    )}
+                                        ) : (
+                                            <div tokenid={listItem.Id} onClick={activateBidNFTModal} className="Bidcontainer col">
+                                                <div tokenid={listItem.Id} className="card BidcontainerCard">
+                                                    <div tokenid={listItem.Id} className="card-body bidbuttonText">Bid</div>
+                                                </div>
+                                            </div>
+                                        )}
+
+                                    </div>
+
 
                                 </div>
                             </div>

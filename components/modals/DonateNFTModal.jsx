@@ -14,6 +14,7 @@ export default function DonateNFTModal({
 	type,
 	EventID,
 	SelectedTitle,
+	enddate
 }) {
 
 	const router = useRouter();
@@ -88,6 +89,10 @@ export default function DonateNFTModal({
 				higherbidadd: {
 					type: 'string',
 					description: ""
+				},
+				date: {
+					type: 'string',
+					description: enddate
 				}
 			},
 			bids: []

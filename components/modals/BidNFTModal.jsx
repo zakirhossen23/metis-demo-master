@@ -28,12 +28,29 @@ export default function BidNFTModal({
 			parsed['properties']['higherbidadd']['description'] = senderAddress;
 
 		}
-		const result = await contract.createBid(tokenId, Amount, JSON.stringify(parsed), senderAddress, eventId);
+		let currentDate = new Date();
+		const createdObject = {
+			title: 'Asset Metadata Bids',
+			type: 'object',
+			properties: {
+				username: {
+					type: 'string',
+					description: senderAddress
+				},
+				bid: {
+					type: 'string',
+					description: Amount
+				},
+				time: {
+					type: 'string',
+					description: currentDate
+				}
+			}
+		};
+		const result = await contract.createBid(tokenId, JSON.stringify(createdObject), JSON.stringify(parsed), eventId);
 
 
 		console.log(result);
-		var getallbids = await contract.allbidstoken(1);
-		console.log(getallbids);
 		window.document.getElementsByClassName("btn-close")[0].click();
 	}
 

@@ -5,30 +5,19 @@ import "@openzeppelin/contracts/utils/Strings.sol";
 
 contract MetisERC721 is ERC721 {
 	uint256 private _tokenIds;
+	uint256 private _bidIds;
 	uint256 private _eventIds;
 	uint256 private _EventTokenIds;
+	uint256 private _TokenBidIds;
 	string[2] data1;
 	uint256 public _EventTokenSearchIds;
 	mapping(uint256 => string[2]) private AllEventTokens;
+	mapping(uint256 => string[2]) private AllTokensBids;
 	mapping(uint256 => string[2]) public _SearchedStore;
+	mapping(uint256 => string) private _bidURIs;
 	mapping(uint256 => string) private _tokenURIs;
 	mapping(uint256 => string) private _eventURIs;
 	mapping(string => string) private _eventTokens;
-
-	mapping(uint256 => Bid) public allbidstoken;
-
-	uint256 public bidCount = 0;
-	struct Bid {
-		uint256 TokenID;
-		string bid;
-		address bidderHash;
-		string date;
-		string status;
-	}
-	struct Bidder {
-		uint256 id;
-		string username;
-	}
 
 	constructor(string memory name, string memory symbol)
 		ERC721(name, symbol)
@@ -79,6 +68,21 @@ contract MetisERC721 is ERC721 {
 			if (
 				keccak256(bytes(_tokenURIs[i])) == keccak256(bytes(_tokenURI))
 			) {
+				return i;
+			}
+		}
+
+		return 0;
+	}
+
+	function getBidIdByUri(string memory _bidURI)
+		public
+		view
+		virtual
+		returns (uint256)
+	{
+		for (uint256 i = 0; i < _bidIds; i++) {
+			if (keccak256(bytes(_bidURIs[i])) == keccak256(bytes(_bidURI))) {
 				return i;
 			}
 		}
@@ -185,21 +189,86 @@ contract MetisERC721 is ERC721 {
 		return _eventIds;
 	}
 
+	function _setBidURI(uint256 bidId, string memory _bidURI) public virtual {
+		_bidURIs[bidId] = _bidURI;
+	}
+
+	function BidURI(uint256 BidId) public view returns (string memory) {
+		return _bidURIs[BidId];
+	}
+
+	function getTotalBid(uint256 TokenID)
+		public
+		view
+		virtual
+		returns (string[] memory)
+	{
+		string[] memory _SearchedStoreBid = new string[](10);
+
+		uint256 _TokenBidSearchIds2 = 0;
+
+		for (uint256 i = 0; i < _TokenBidIds; i++) {
+			if (
+				keccak256(bytes(AllTokensBids[i][0])) ==
+				keccak256(bytes(Strings.toString(TokenID)))
+			) {
+				_SearchedStoreBid[_TokenBidSearchIds2] = AllTokensBids[i][1];
+				_TokenBidSearchIds2++;
+			}
+		}
+
+		return _SearchedStoreBid;
+	}
+
+	function getBidsSearchToken(uint256 TokenID)
+		public
+		view
+		virtual
+		returns (string[] memory)
+	{
+		string[] memory _SearchedStoreBid = new string[](10);
+
+		uint256 _TokenBidSearchIds2 = 0;
+
+		for (uint256 i = 0; i < _TokenBidIds; i++) {
+			if (
+				keccak256(bytes(AllTokensBids[i][0])) ==
+				keccak256(bytes(Strings.toString(TokenID)))
+			) {
+				_SearchedStoreBid[_TokenBidSearchIds2] = AllTokensBids[i][1];
+				_TokenBidSearchIds2++;
+			}
+		}
+
+		return _SearchedStoreBid;
+	}
+
+	function _setTokenBid(
+		uint256 TokenBidId,
+		uint256 TokenId,
+		string memory _BidURI
+	) public virtual {
+		AllTokensBids[TokenBidId] = [
+			Strings.toString(TokenId),
+			string(_BidURI)
+		];
+	}
+
 	function createBid(
 		uint256 _tokenId,
-		string memory _bid,
+		string memory _bidURI,
 		string memory _updatedURI,
-		address bidder,
 		uint256 _eventid
 	) public {
-		bidCount++;
 		uint256 _EventTokenId = getGetEventsTokenID(
 			_eventid,
 			_tokenURIs[_tokenId]
 		);
 		_tokenURIs[_tokenId] = _updatedURI;
-
 		_setTokenEvent(_EventTokenId, _eventid, _updatedURI);
-		allbidstoken[bidCount] = Bid(_tokenId, _bid, bidder, "date", "Bid");
+
+		_setTokenBid(_TokenBidIds, _tokenId, _bidURI);
+		_TokenBidIds++;
+		_bidIds++;
 	}
 }

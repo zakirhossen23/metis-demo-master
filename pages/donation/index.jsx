@@ -18,6 +18,7 @@ export default function Donation() {
     const [selectid, setselectid] = useState('');
     const [selectedtype, setselectedtype] = useState('');
     const [SelectedTitle, setSelectedTitle] = useState('');
+    const [SelectedendDate, setSelectedendDate] = useState('');
 
 
     useEffect(() => {
@@ -31,6 +32,25 @@ export default function Donation() {
             window.ethereum.removeListener('chainChanged', fetchContractData);
         };
     }, [contract]);
+    setInterval(function () {
+        calculateTimeLeft();
+    }, 1000);
+
+
+
+    function calculateTimeLeft() {
+        try {
+            var allDates = document.getElementsByName("DateCount");
+            for (let i = 0; i < allDates.length; i++) {
+                var date = (allDates[i]).getAttribute("date");
+                allDates[i].innerHTML = LeftDate(date);
+            }
+        } catch (error) {
+
+        }
+
+    }
+
 
     async function fetchContractData() {
 
@@ -71,6 +91,7 @@ export default function Donation() {
     function activateCreateNFTModal(e) {
         setselectid(e.target.getAttribute("eventid"));
         setSelectedTitle(e.target.getAttribute("eventtitle"));
+        setSelectedendDate(e.target.getAttribute("date"));
         setselectedtype("NFT");
 
         setModalShow(true);
@@ -78,6 +99,7 @@ export default function Donation() {
     function activateCreateCryptopunkModal(e) {
         setselectid(e.target.getAttribute("eventid"));
         setSelectedTitle(e.target.getAttribute("eventtitle"));
+        setSelectedendDate(e.target.getAttribute("date"));
         setselectedtype("Cryptopunk");
 
         setModalShow(true);
@@ -127,7 +149,7 @@ export default function Donation() {
 
             {list.map((listItem) => (
                 <div key={listItem.eventId} className='row' style={{ height: "397px", margin: "28px", background: "white", color: "black", overflow: "hidden", padding: 0, }}>
-                    <div><h4>{LeftDate(listItem.Date)}</h4></div>
+                    <div><h4 name="DateCount" date={listItem.Date}>{LeftDate(listItem.Date)}</h4></div>
                     <div style={{ "display": "flex" }}>
                         <img src={listItem.logo} style={{ maxHeight: "270px", minWidth: "284px" }} />
                         <div style={{
@@ -159,13 +181,13 @@ export default function Donation() {
                                 <div className="card" style={{ "height": "100%", border: "0px" }}></div>
                                 <div style={{ "display": "flex", gap: "14px" }}>
 
-                                    <div eventid={listItem.eventId} eventtitle={listItem.Title} onClick={activateCreateNFTModal} className="card" style={{ color: "white", background: "rgb(0, 222, 205)", "textAlign": "center", cursor: "pointer", height: "100%", float: "right", width: "290px" }}>
-                                        <div eventid={listItem.eventId} eventtitle={listItem.Title} className="card-body" style={{ height: "100%", "paddingTop": "6px" }}>
+                                    <div eventid={listItem.eventId} date={listItem.Date} eventtitle={listItem.Title} onClick={activateCreateNFTModal} className="card" style={{ color: "white", background: "rgb(0, 222, 205)", "textAlign": "center", cursor: "pointer", height: "100%", float: "right", width: "290px" }}>
+                                        <div eventid={listItem.eventId} date={listItem.Date} eventtitle={listItem.Title} className="card-body" style={{ height: "100%", "paddingTop": "6px" }}>
                                             Donate NFT
                                         </div>
                                     </div>
-                                    <div eventid={listItem.eventId} eventtitle={listItem.Title} onClick={activateCreateCryptopunkModal} className="card" style={{ color: "white", background: "rgb(0, 222, 205)", "textAlign": "center", cursor: "pointer", height: "100%", float: "right", width: "290px" }}>
-                                        <div eventid={listItem.eventId} eventtitle={listItem.Title} className="card-body" style={{ height: "100%", "paddingTop": "6px" }}>
+                                    <div eventid={listItem.eventId} date={listItem.Date} eventtitle={listItem.Title} onClick={activateCreateCryptopunkModal} className="card" style={{ color: "white", background: "rgb(0, 222, 205)", "textAlign": "center", cursor: "pointer", height: "100%", float: "right", width: "290px" }}>
+                                        <div eventid={listItem.eventId} date={listItem.Date} eventtitle={listItem.Title} className="card-body" style={{ height: "100%", "paddingTop": "6px" }}>
                                             Donate Cryptopunk
                                         </div>
                                     </div>
@@ -195,6 +217,7 @@ export default function Donation() {
                 EventID={selectid}
                 type={selectedtype}
                 SelectedTitle={SelectedTitle}
+                enddate={SelectedendDate}
             />
         </>
     );
