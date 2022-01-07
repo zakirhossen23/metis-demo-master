@@ -105,7 +105,7 @@ export default function ViewNFT(user) {
                 sethigherbid(Number(object.properties.price.description));
                 setdateleft(object.properties.date.description);
                 settype(object.properties.typeimg.description);
-                setlogo(object.properties.logo.description);
+                setlogo(object.properties.image.description);
             }
         } catch (error) {
             console.error(error);
