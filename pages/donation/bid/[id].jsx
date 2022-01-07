@@ -142,7 +142,12 @@ export default function ViewNFT(user) {
 
             <div className="row EventContainer" >
                 <div style={{ "display": "flex" }}>
-                    <img src={logo} className="AuctionImage" />
+                    {type == "Cryptopunk" ? (
+                        <img src={logo} className="AuctionBidImage pixel" />
+                    ) : (
+                        <img src={logo} className="AuctionBidImage" />
+                    )}
+
                     <div className="TokenDetialsContainer">
                         <h4>{title}</h4>
                         <div className='TextContainer'>
