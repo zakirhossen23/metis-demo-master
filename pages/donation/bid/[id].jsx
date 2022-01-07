@@ -89,6 +89,11 @@ export default function ViewNFT(user) {
                 setList(arr);
                 if (document.getElementById("Loading"))
                     document.getElementById("Loading").style = "display:none";
+                if (document.getElementById("Loadingtable")) {
+                    var element = document.getElementById("Loadingtable");
+                    element.style = "display:block";
+                    (element).setAttribute("id", "");
+                }
 
 
                 setTokenuri(value);
@@ -163,7 +168,7 @@ export default function ViewNFT(user) {
                 <h1>Loading...</h1>
             </div>
 
-            <div className="ElementsContainer">
+            <div id='Loadingtable' style={{ display: 'none' }} className="ElementsContainer">
                 <div className='tableHeader'>
                     <div className='tableHeaderContainer'>
                         <div className='tableheaderDateContainer' >
