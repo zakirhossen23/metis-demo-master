@@ -318,7 +318,7 @@ background-color: #0B2435;
     border: #ffffff 1px solid;
 }.cell {
     width: 100%;
-    padding-left: 52px;
+    padding-left: 21px;
     align-self: center;
 }
 .tableRowCellDateContainer{

@@ -24,11 +24,6 @@
       "static/chunks/main.js",
       "static/chunks/pages/_error.js"
     ],
-    "/donation/auction/[id]": [
-      "static/chunks/webpack.js",
-      "static/chunks/main.js",
-      "static/chunks/pages/donation/auction/[id].js"
-    ],
     "/donation/bid/[id]": [
       "static/chunks/webpack.js",
       "static/chunks/main.js",

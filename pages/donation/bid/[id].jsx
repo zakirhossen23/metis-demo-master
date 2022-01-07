@@ -80,7 +80,8 @@ export default function ViewNFT(user) {
                             Id: BidId,
                             name: object.properties.username.description,
                             time: currentdate,
-                            bidprice: object.properties.bid.description
+                            bidprice: object.properties.bid.description,
+                            bidpriceusd: pricedes1
                         });
                     }
                 }
@@ -162,21 +163,21 @@ export default function ViewNFT(user) {
                 <h1>Loading...</h1>
             </div>
 
-            <div class="ElementsContainer">
+            <div className="ElementsContainer">
                 <div className='tableHeader'>
                     <div className='tableHeaderContainer'>
                         <div className='tableheaderDateContainer' >
-                            <h4 class="header">Date</h4>
+                            <h4 className="header">Date</h4>
                         </div>
                         <div className="tableheaderUserContainer" >
-                            <h4 class="header">User Name</h4>
+                            <h4 className="header">User Name</h4>
                         </div>
                         <div className="tableheaderBidContainer" >
-                            <h4 class="header">Bid</h4>
+                            <h4 className="header">Bid</h4>
                         </div>
                     </div>
                 </div> {list.map((listItem) => (
-                    <div className='tableFullRowContainer'>
+                    <div key={listItem.Id} className='tableFullRowContainer'>
                         <div className='tableRowContainer'>
                             <div className='tableRowCellContainer'>
                                 <div className='tableRowCellDateContainer'>
@@ -186,7 +187,7 @@ export default function ViewNFT(user) {
                                     <h5 className="cell">{listItem.name}</h5>
                                 </div>
                                 <div className="tableRowCellBidContainer">
-                                    <h5 class="cell">{listItem.bidprice}</h5>
+                                    <h5 className="cell">${listItem.bidpriceusd} ({listItem.bidprice} ETH)</h5>
                                 </div>
                             </div>
                         </div>

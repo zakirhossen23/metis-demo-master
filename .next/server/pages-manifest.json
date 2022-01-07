@@ -2,6 +2,5 @@
   "/_app": "pages/_app.js",
   "/_error": "pages/_error.js",
   "/_document": "pages/_document.js",
-  "/donation/bid/[id]": "pages/donation/bid/[id].js",
-  "/donation/auction/[id]": "pages/donation/auction/[id].js"
+  "/donation/bid/[id]": "pages/donation/bid/[id].js"
 }
