@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
@@ -12,15 +12,27 @@ export default function BidNFTModal({
 	senderAddress,
 	tokenId,
 	eventId,
-	type
+	type,
+	Highestbid
 
 }) {
+	const [Alert, setAlert] = useState('');
 	const [Amount, AmountInput] = UseFormInput({
 		type: 'text',
 		placeholder: 'Amount',
 	});
 
+
+	function activateWarningModal() {
+		var alertELM = document.getElementById("alert");
+		alertELM.style = 'contents';
+		setAlert(`Amount cannot be under ${Highestbid} ETH`)
+	}
 	async function bidNFT() {
+		if (Amount < Highestbid) {
+			activateWarningModal();
+			return;
+		}
 		const tokenUri = await contract.tokenURI(tokenId);
 		var parsed = await JSON.parse(tokenUri);
 		if (Number(parsed['properties']['price']['description']) < Number(Amount)) {
@@ -73,7 +85,9 @@ export default function BidNFTModal({
 			</Modal.Header>
 			<Modal.Body className="show-grid">
 				<Form>
-
+					<div id='alert' style={{ display: 'none' }} class="alert alert-danger" role="alert">
+						{Alert}
+					</div>
 					<Form.Group className="mb-3" controlId="formGroupName">
 						<Form.Label>Bid Amount in ETH</Form.Label>
 						{AmountInput}
@@ -91,6 +105,8 @@ export default function BidNFTModal({
 					</div>
 				</Form>
 			</Modal.Body>
+
 		</Modal>
+
 	);
 }

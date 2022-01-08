@@ -10,6 +10,7 @@ import Image from 'react-bootstrap/Image';
 import Button from 'react-bootstrap/Button';
 
 import BidNFTModal from '../../../components/modals/BidNFTModal';
+import ViewBidNFTModal from '../../../components/modals/ViewBidNFTModal';
 
 import useContract from '../../../services/useContract';
 
@@ -28,10 +29,13 @@ export default function ViewNFT(user) {
     const [dateleftBid, setdateleftBid] = useState('');
     const [logo, setlogo] = useState('');
     const [selectid, setselectid] = useState('');
+    const [selecttitle, setselecttitle] = useState('');
     const [selecttype, setselecttype] = useState('');
+    const [selectbid, setselectbid] = useState('');
 
     const [eventuri, setEventuri] = useState('');
     const [modalShow, setModalShow] = useState(false);
+    const [ViewmodalShow, setViewModalShow] = useState(false);
 
     const formatter = new Intl.NumberFormat('en-US', {
         minimumFractionDigits: 2,
@@ -140,16 +144,27 @@ export default function ViewNFT(user) {
 
     }
 
+    function activateViewBidModal(e) {
+        setselectid(e.target.getAttribute("tokenid"));
+        setselecttitle(e.target.getAttribute("title"));
 
+        setViewModalShow(true);
+    }
 
     function activateBidNFTModal(e) {
         setselectid(e.target.getAttribute("tokenid"));
+
+        setselectbid(e.target.getAttribute("highestbid"));
+        console.log(selectbid);
         setselecttype("NFT");
         setModalShow(true);
     }
     function activateBidCryptopunkTModal(e) {
         setselectid(e.target.getAttribute("tokenid"));
         setselecttype("Cryptopunk");
+        setselectbid(e.target.getAttribute("highestbid"));
+        console.log(selectbid);
+
         setModalShow(true);
     }
 
@@ -207,24 +222,23 @@ export default function ViewNFT(user) {
                                 </div>
                                 <div className='BidAllcontainer' >
                                     <div className='Bidsbutton'>
-                                        <Link href={`/donation/bid/${listItem.Id}`}>
-                                            <div tokenid={listItem.Id} className="Bidcontainer col">
-                                                <div tokenid={listItem.Id} className="card BidcontainerCard">
-                                                    <div tokenid={listItem.Id} className="card-body bidbuttonText">View</div>
-                                                </div>
+                                        <div tokenid={listItem.Id} title={listItem.name} onClick={activateViewBidModal} className="Bidcontainer col">
+                                            <div tokenid={listItem.Id} title={listItem.name} className="card BidcontainerCard">
+                                                <div tokenid={listItem.Id} title={listItem.name} className="card-body bidbuttonText">View</div>
                                             </div>
-                                        </Link>
+                                        </div>
+
 
                                         {listItem.type == "Cryptopunk" ? (
-                                            <div tokenid={listItem.Id} onClick={activateBidCryptopunkTModal} className="Bidcontainer col">
-                                                <div tokenid={listItem.Id} className="card BidcontainerCard">
-                                                    <div tokenid={listItem.Id} className="card-body bidbuttonText">Bid</div>
+                                            <div tokenid={listItem.Id} highestbid={listItem.price} onClick={activateBidCryptopunkTModal} className="Bidcontainer col">
+                                                <div tokenid={listItem.Id} highestbid={listItem.price} className="card BidcontainerCard">
+                                                    <div tokenid={listItem.Id} highestbid={listItem.price} className="card-body bidbuttonText">Bid</div>
                                                 </div>
                                             </div>
                                         ) : (
-                                            <div tokenid={listItem.Id} onClick={activateBidNFTModal} className="Bidcontainer col">
-                                                <div tokenid={listItem.Id} className="card BidcontainerCard">
-                                                    <div tokenid={listItem.Id} className="card-body bidbuttonText">Bid</div>
+                                            <div tokenid={listItem.Id} highestbid={listItem.price} onClick={activateBidNFTModal} className="Bidcontainer col">
+                                                <div tokenid={listItem.Id} highestbid={listItem.price} className="card BidcontainerCard">
+                                                    <div tokenid={listItem.Id} highestbid={listItem.price} className="card-body bidbuttonText">Bid</div>
                                                 </div>
                                             </div>
                                         )}
@@ -253,8 +267,19 @@ export default function ViewNFT(user) {
                 senderAddress={signerAddress}
                 type={selecttype}
                 eventId={eventId}
+                Highestbid={selectbid}
             />
 
+            <ViewBidNFTModal
+                show={ViewmodalShow}
+                onHide={() => {
+                    setViewModalShow(false);
+                    // This is a poor implementation, better to implement an event listener
+                    fetchContractData();
+                }}
+                id={selectid}
+                title={selecttitle}
+            />
         </>
     );
 }
