@@ -85,7 +85,7 @@ export default function BidNFTModal({
 			</Modal.Header>
 			<Modal.Body className="show-grid">
 				<Form>
-					<div id='alert' style={{ display: 'none' }} class="alert alert-danger" role="alert">
+					<div id='alert' style={{ display: 'none' }} className="alert alert-danger" role="alert">
 						{Alert}
 					</div>
 					<Form.Group className="mb-3" controlId="formGroupName">
